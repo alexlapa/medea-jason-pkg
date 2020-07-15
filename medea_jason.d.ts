@@ -30,6 +30,16 @@ export class ConnectionHandle {
 * @param {Function} f
 */
   on_remote_stream(f: Function): void;
+/**
+* Sets callback, which will be invoked when this `Connection` will close.
+* @param {Function} f
+*/
+  on_close(f: Function): void;
+/**
+* Returns remote `PeerId`.
+* @returns {number}
+*/
+  get_remote_id(): number;
 }
 /**
 * Constraints applicable to video tracks that are sourced from some media
@@ -338,7 +348,8 @@ export class RoomCloseReason {
 export class RoomHandle {
   free(): void;
 /**
-* Sets callback, which will be invoked on new `Connection` establishing.
+* Sets callback, which will be invoked when new [`Connection`] with some
+* remote `Peer` is established.
 * @param {Function} f
 */
   on_new_connection(f: Function): void;
@@ -428,33 +439,37 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_remotemediastream_free: (a: number) => void;
+  readonly remotemediastream_get_media_stream: (a: number) => number;
+  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
+  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
+  readonly mediamanagerhandle_init_local_stream: (a: number, b: number) => number;
   readonly __wbg_jason_free: (a: number) => void;
   readonly jason_new: () => number;
   readonly jason_init_room: (a: number) => number;
   readonly jason_media_manager: (a: number) => number;
   readonly jason_dispose: (a: number) => void;
-  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
-  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
-  readonly mediamanagerhandle_init_local_stream: (a: number, b: number) => number;
-  readonly __wbg_remotemediastream_free: (a: number) => void;
-  readonly remotemediastream_get_media_stream: (a: number) => number;
   readonly __wbg_inputdeviceinfo_free: (a: number) => void;
   readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
   readonly inputdeviceinfo_kind: (a: number, b: number) => void;
   readonly inputdeviceinfo_label: (a: number, b: number) => void;
   readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
-  readonly __wbg_reconnecthandle_free: (a: number) => void;
-  readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
-  readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
   readonly __wbg_localmediastream_free: (a: number) => void;
   readonly localmediastream_get_media_stream: (a: number) => number;
   readonly localmediastream_free_audio: (a: number) => void;
   readonly localmediastream_free_video: (a: number) => void;
+  readonly __wbg_reconnecthandle_free: (a: number) => void;
+  readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
+  readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
   readonly __wbg_jasonerror_free: (a: number) => void;
   readonly jasonerror_name: (a: number, b: number) => void;
   readonly jasonerror_message: (a: number, b: number) => void;
   readonly jasonerror_trace: (a: number, b: number) => void;
   readonly jasonerror_source: (a: number) => number;
+  readonly __wbg_connectionhandle_free: (a: number) => void;
+  readonly connectionhandle_on_remote_stream: (a: number, b: number) => void;
+  readonly connectionhandle_on_close: (a: number, b: number) => void;
+  readonly connectionhandle_get_remote_id: (a: number) => number;
   readonly __wbg_roomclosereason_free: (a: number) => void;
   readonly roomclosereason_reason: (a: number, b: number) => void;
   readonly roomclosereason_is_closed_by_server: (a: number) => number;
@@ -484,13 +499,11 @@ export interface InitOutput {
   readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
   readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
   readonly devicevideotrackconstraints_new: () => number;
-  readonly __wbg_connectionhandle_free: (a: number) => void;
-  readonly connectionhandle_on_remote_stream: (a: number, b: number) => void;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0ae6cf2bc8b681e1: (a: number, b: number, c: number) => void;
   readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h57600fc5744f255c: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0ae6cf2bc8b681e1: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly wasm_bindgen__convert__closures__invoke2_mut__h65895a344e1a7298: (a: number, b: number, c: number, d: number) => void;
