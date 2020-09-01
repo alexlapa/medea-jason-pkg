@@ -40,10 +40,16 @@ export class ConnectionHandle {
 */
   on_close(f: Function): void;
 /**
-* Returns remote `PeerId`.
-* @returns {number}
+* Returns remote `Member` ID.
+* @returns {string}
 */
-  get_remote_id(): number;
+  get_remote_member_id(): string;
+/**
+* Sets callback, which will be invoked when connection quality score will
+* be updated by server.
+* @param {Function} f
+*/
+  on_quality_score_update(f: Function): void;
 }
 /**
 * Constraints applicable to video tracks that are sourced from some media
@@ -471,6 +477,11 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_connectionhandle_free: (a: number) => void;
+  readonly connectionhandle_on_remote_stream: (a: number, b: number) => void;
+  readonly connectionhandle_on_close: (a: number, b: number) => void;
+  readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
+  readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
   readonly __wbg_jason_free: (a: number) => void;
   readonly jason_new: () => number;
   readonly jason_init_room: (a: number) => number;
@@ -499,10 +510,6 @@ export interface InitOutput {
   readonly jasonerror_message: (a: number, b: number) => void;
   readonly jasonerror_trace: (a: number, b: number) => void;
   readonly jasonerror_source: (a: number) => number;
-  readonly __wbg_connectionhandle_free: (a: number) => void;
-  readonly connectionhandle_on_remote_stream: (a: number, b: number) => void;
-  readonly connectionhandle_on_close: (a: number, b: number) => void;
-  readonly connectionhandle_get_remote_id: (a: number) => number;
   readonly __wbg_localmediastream_free: (a: number) => void;
   readonly localmediastream_get_media_stream: (a: number) => number;
   readonly localmediastream_free_audio: (a: number) => void;
@@ -539,11 +546,11 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0899a462cdfe9e5b: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h10b6863cfba9a00c: (a: number, b: number, c: number) => void;
-  readonly __wbindgen_exn_store: (a: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h06fdec0b06cb33d5: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h5cd511c2e68c60f4: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h01efeb0ef3ace770: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbindgen_exn_store: (a: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h84c00bbcf15db58e: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
