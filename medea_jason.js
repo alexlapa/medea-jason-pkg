@@ -252,23 +252,23 @@ function __wbg_adapter_276(arg0, arg1, arg2, arg3) {
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
-* [1]: https://www.w3.org/TR/mediacapture-streams/#dom-videofacingmodeenum
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-videofacingmodeenum
 */
 export const FacingMode = Object.freeze({
 /**
-* The source is facing toward the user (a self-view camera).
+* Facing toward the user (a self-view camera).
 */
 User:0,"0":"User",
 /**
-* The source is facing away from the user (viewing the environment).
+* Facing away from the user (viewing the environment).
 */
 Environment:1,"1":"Environment",
 /**
-* The source is facing to the left of the user.
+* Facing to the left of the user.
 */
 Left:2,"2":"Left",
 /**
-* The source is facing to the right of the user.
+* Facing to the right of the user.
 */
 Right:3,"3":"Right", });
 /**
@@ -414,7 +414,7 @@ export class DeviceVideoTrackConstraints {
     /**
     * Sets exact [facingMode][1] constraint.
     *
-    * [1]: https://tinyurl.com/y2ks2mjj
+    * [1]: https://w3.org/TR/mediacapture-streams/#dom-constraindomstring
     * @param {number} facing_mode
     */
     exact_facing_mode(facing_mode) {
@@ -423,7 +423,7 @@ export class DeviceVideoTrackConstraints {
     /**
     * Sets ideal [facingMode][1] constraint.
     *
-    * [1]: https://tinyurl.com/y2ks2mjj
+    * [1]: https://w3.org/TR/mediacapture-streams/#dom-constraindomstring
     * @param {number} facing_mode
     */
     ideal_facing_mode(facing_mode) {

@@ -4,23 +4,23 @@
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
-* [1]: https://www.w3.org/TR/mediacapture-streams/#dom-videofacingmodeenum
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-videofacingmodeenum
 */
 export enum FacingMode {
 /**
-* The source is facing toward the user (a self-view camera).
+* Facing toward the user (a self-view camera).
 */
   User,
 /**
-* The source is facing away from the user (viewing the environment).
+* Facing away from the user (viewing the environment).
 */
   Environment,
 /**
-* The source is facing to the left of the user.
+* Facing to the left of the user.
 */
   Left,
 /**
-* The source is facing to the right of the user.
+* Facing to the right of the user.
 */
   Right,
 }
@@ -96,14 +96,14 @@ export class DeviceVideoTrackConstraints {
 /**
 * Sets exact [facingMode][1] constraint.
 *
-* [1]: https://tinyurl.com/y2ks2mjj
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-constraindomstring
 * @param {number} facing_mode
 */
   exact_facing_mode(facing_mode: number): void;
 /**
 * Sets ideal [facingMode][1] constraint.
 *
-* [1]: https://tinyurl.com/y2ks2mjj
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-constraindomstring
 * @param {number} facing_mode
 */
   ideal_facing_mode(facing_mode: number): void;
