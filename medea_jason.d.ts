@@ -570,11 +570,6 @@ export interface InitOutput {
   readonly displayvideotrackconstraints_new: () => number;
   readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
   readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
-  readonly __wbg_jasonerror_free: (a: number) => void;
-  readonly jasonerror_name: (a: number, b: number) => void;
-  readonly jasonerror_message: (a: number, b: number) => void;
-  readonly jasonerror_trace: (a: number, b: number) => void;
-  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_roomclosereason_free: (a: number) => void;
   readonly roomclosereason_reason: (a: number, b: number) => void;
   readonly roomclosereason_is_closed_by_server: (a: number) => number;
@@ -607,6 +602,11 @@ export interface InitOutput {
   readonly __wbg_reconnecthandle_free: (a: number) => void;
   readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
   readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
+  readonly __wbg_jasonerror_free: (a: number) => void;
+  readonly jasonerror_name: (a: number, b: number) => void;
+  readonly jasonerror_message: (a: number, b: number) => void;
+  readonly jasonerror_trace: (a: number, b: number) => void;
+  readonly jasonerror_source: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
