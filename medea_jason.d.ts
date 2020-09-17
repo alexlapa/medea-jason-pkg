@@ -515,15 +515,15 @@ export class RoomHandle {
 */
   mute_remote_audio(): Promise<any>;
 /**
-* Unmutes inbound audio in this [`Room`].
-* @returns {Promise<any>}
-*/
-  unmute_remote_audio(): Promise<any>;
-/**
 * Mutes inbound video in this [`Room`].
 * @returns {Promise<any>}
 */
   mute_remote_video(): Promise<any>;
+/**
+* Unmutes inbound audio in this [`Room`].
+* @returns {Promise<any>}
+*/
+  unmute_remote_audio(): Promise<any>;
 /**
 * Unmutes inbound video in this [`Room`].
 * @returns {Promise<any>}
@@ -540,6 +540,9 @@ export interface InitOutput {
   readonly jason_init_room: (a: number) => number;
   readonly jason_media_manager: (a: number) => number;
   readonly jason_dispose: (a: number) => void;
+  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
+  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
+  readonly mediamanagerhandle_init_local_stream: (a: number, b: number) => number;
   readonly __wbg_remotemediastream_free: (a: number) => void;
   readonly remotemediastream_get_media_stream: (a: number) => number;
   readonly remotemediastream_has_active_audio: (a: number) => number;
@@ -552,9 +555,6 @@ export interface InitOutput {
   readonly connectionhandle_on_close: (a: number, b: number) => void;
   readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
   readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
-  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
-  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
-  readonly mediamanagerhandle_init_local_stream: (a: number, b: number) => number;
   readonly __wbg_mediastreamsettings_free: (a: number) => void;
   readonly mediastreamsettings_new: () => number;
   readonly mediastreamsettings_audio: (a: number, b: number) => void;
@@ -587,8 +587,8 @@ export interface InitOutput {
   readonly roomhandle_mute_video: (a: number) => number;
   readonly roomhandle_unmute_video: (a: number) => number;
   readonly roomhandle_mute_remote_audio: (a: number) => number;
-  readonly roomhandle_unmute_remote_audio: (a: number) => number;
   readonly roomhandle_mute_remote_video: (a: number) => number;
+  readonly roomhandle_unmute_remote_audio: (a: number) => number;
   readonly roomhandle_unmute_remote_video: (a: number) => number;
   readonly __wbg_inputdeviceinfo_free: (a: number) => void;
   readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
@@ -612,8 +612,8 @@ export interface InitOutput {
   readonly __wbindgen_export_2: WebAssembly.Table;
   readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751: (a: number, b: number, c: number) => void;
   readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h21ba75bfea0b3254: (a: number, b: number, c: number) => void;
-  readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
+  readonly __wbindgen_free: (a: number, b: number) => void;
   readonly wasm_bindgen__convert__closures__invoke2_mut__h3ab66e0c34276d1e: (a: number, b: number, c: number, d: number) => void;
 }
 
