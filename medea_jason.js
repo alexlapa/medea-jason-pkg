@@ -204,27 +204,27 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_30(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_33(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_36(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_39(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_42(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h324fc44bad70d751(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_45(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h21ba75bfea0b3254(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb32110d5e4a698d4(arg0, arg1, addHeapObject(arg2));
 }
 
 function handleError(f) {
@@ -244,8 +244,8 @@ function _assertClass(instance, klass) {
     }
     return instance.ptr;
 }
-function __wbg_adapter_276(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures__invoke2_mut__h3ab66e0c34276d1e(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+function __wbg_adapter_266(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures__invoke2_mut__hbecdc807be7d3301(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
 }
 
 /**
@@ -329,18 +329,6 @@ export class ConnectionHandle {
         wasm.__wbg_connectionhandle_free(ptr);
     }
     /**
-    * Sets callback, which will be invoked as soon as first media track from
-    * remote `Member` is received.
-    *
-    * It's guaranteed that provided stream will have at least one media track
-    * when this callback is fired. List of tracks in provided stream is not
-    * final and can be changed in future.
-    * @param {Function} f
-    */
-    on_remote_stream(f) {
-        wasm.connectionhandle_on_remote_stream(this.ptr, addHeapObject(f));
-    }
-    /**
     * Sets callback, which will be invoked when this `Connection` will close.
     * @param {Function} f
     */
@@ -353,16 +341,24 @@ export class ConnectionHandle {
     */
     get_remote_member_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.connectionhandle_get_remote_member_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
+    }
+    /**
+    * Sets callback, which will be invoked when new remote
+    * [`MediaStreamTrack`] will be added to this [`Connection`].
+    * @param {Function} f
+    */
+    on_remote_track_added(f) {
+        wasm.connectionhandle_on_remote_track_added(this.ptr, addHeapObject(f));
     }
     /**
     * Sets callback, which will be invoked when connection quality score will
@@ -483,14 +479,14 @@ export class InputDeviceInfo {
     */
     device_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_device_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -504,14 +500,14 @@ export class InputDeviceInfo {
     */
     kind() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_kind(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -523,14 +519,14 @@ export class InputDeviceInfo {
     */
     label() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_label(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -547,14 +543,14 @@ export class InputDeviceInfo {
     */
     group_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_group_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -640,14 +636,14 @@ export class JasonError {
     */
     name() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_name(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -657,14 +653,14 @@ export class JasonError {
     */
     message() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_message(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -674,14 +670,14 @@ export class JasonError {
     */
     trace() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_trace(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -692,50 +688,6 @@ export class JasonError {
     source() {
         var ret = wasm.jasonerror_source(this.ptr);
         return takeObject(ret);
-    }
-}
-/**
-* Representation of [MediaStream][1] object. Contains strong references to
-* [`MediaStreamTrack`].
-*
-* [1]: https://w3.org/TR/mediacapture-streams/#mediastream
-*/
-export class LocalMediaStream {
-
-    static __wrap(ptr) {
-        const obj = Object.create(LocalMediaStream.prototype);
-        obj.ptr = ptr;
-
-        return obj;
-    }
-
-    free() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        wasm.__wbg_localmediastream_free(ptr);
-    }
-    /**
-    * Returns underlying [MediaStream][1].
-    *
-    * [1]: https://w3.org/TR/mediacapture-streams/#mediastream
-    * @returns {MediaStream}
-    */
-    get_media_stream() {
-        var ret = wasm.localmediastream_get_media_stream(this.ptr);
-        return takeObject(ret);
-    }
-    /**
-    * Drops all audio tracks contained in ths stream.
-    */
-    free_audio() {
-        wasm.localmediastream_free_audio(this.ptr);
-    }
-    /**
-    * Drops all video tracks contained in ths stream.
-    */
-    free_video() {
-        wasm.localmediastream_free_video(this.ptr);
     }
 }
 /**
@@ -778,14 +730,14 @@ export class MediaManagerHandle {
         return takeObject(ret);
     }
     /**
-    * Returns [`MediaStream`](LocalMediaStream) object, built from provided
+    * Returns [`MediaStreamTrack`]s objects, built from provided
     * [`MediaStreamSettings`].
     * @param {MediaStreamSettings} caps
     * @returns {Promise<any>}
     */
-    init_local_stream(caps) {
+    init_local_tracks(caps) {
         _assertClass(caps, MediaStreamSettings);
-        var ret = wasm.mediamanagerhandle_init_local_stream(this.ptr, caps.ptr);
+        var ret = wasm.mediamanagerhandle_init_local_tracks(this.ptr, caps.ptr);
         return takeObject(ret);
     }
 }
@@ -852,6 +804,81 @@ export class MediaStreamSettings {
     }
 }
 /**
+* Strong reference to [MediaStreamTrack][1].
+*
+* Track will be automatically stopped when there are no strong references
+* left.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack
+*/
+export class MediaTrack {
+
+    static __wrap(ptr) {
+        const obj = Object.create(MediaTrack.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    free() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        wasm.__wbg_mediatrack_free(ptr);
+    }
+    /**
+    * Returns underlying [`SysMediaStreamTrack`] from this
+    * [`MediaStreamTrack`].
+    * @returns {MediaStreamTrack}
+    */
+    get_track() {
+        var ret = wasm.mediatrack_get_track(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Returns is this [`MediaStreamTrack`] enabled.
+    * @returns {boolean}
+    */
+    enabled() {
+        var ret = wasm.mediatrack_enabled(this.ptr);
+        return ret !== 0;
+    }
+    /**
+    * Sets callback, which will be invoked when this [`MediaStreamTrack`] is
+    * enabled.
+    * @param {Function} callback
+    */
+    on_enabled(callback) {
+        wasm.mediatrack_on_enabled(this.ptr, addHeapObject(callback));
+    }
+    /**
+    * Sets callback, which will be invoked when this [`MediaStreamTrack`] is
+    * enabled.
+    * @param {Function} callback
+    */
+    on_disabled(callback) {
+        wasm.mediatrack_on_disabled(this.ptr, addHeapObject(callback));
+    }
+    /**
+    * Returns a [`String`] set to `audio` if the track is an audio track and
+    * to `video`, if it is a video track.
+    * @returns {string}
+    */
+    kind() {
+        try {
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
+            wasm.mediatrack_kind(retptr, this.ptr);
+            var r0 = getInt32Memory0()[retptr / 4 + 0];
+            var r1 = getInt32Memory0()[retptr / 4 + 1];
+            return getStringFromWasm0(r0, r1);
+        } finally {
+            wasm.__wbindgen_export_5.value += 16;
+            wasm.__wbindgen_free(r0, r1);
+        }
+    }
+}
+/**
 * Handle that JS side can reconnect to the Medea media server on
 * a connection loss with.
 *
@@ -914,78 +941,6 @@ export class ReconnectHandle {
     }
 }
 /**
-* JS side handle to [`PeerMediaStream`].
-*
-* Actually, represents a [`Weak`]-based handle to `InnerStream`.
-*
-* For using [`RemoteMediaStream`] on Rust side, consider the
-* [`PeerMediaStream`].
-*/
-export class RemoteMediaStream {
-
-    static __wrap(ptr) {
-        const obj = Object.create(RemoteMediaStream.prototype);
-        obj.ptr = ptr;
-
-        return obj;
-    }
-
-    free() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        wasm.__wbg_remotemediastream_free(ptr);
-    }
-    /**
-    * Returns the underlying [`PeerMediaStream`][`SysMediaStream`] object.
-    * @returns {MediaStream}
-    */
-    get_media_stream() {
-        var ret = wasm.remotemediastream_get_media_stream(this.ptr);
-        return takeObject(ret);
-    }
-    /**
-    * Indicates whether at least one video [`MediaStreamTrack`] exists in this
-    * [`RemoteMediaStream`].
-    * @returns {boolean}
-    */
-    has_active_audio() {
-        var ret = wasm.remotemediastream_has_active_audio(this.ptr);
-        return ret !== 0;
-    }
-    /**
-    * Indicates whether at least one video [`MediaStreamTrack`] exists in this
-    * [`RemoteMediaStream`].
-    * @returns {boolean}
-    */
-    has_active_video() {
-        var ret = wasm.remotemediastream_has_active_video(this.ptr);
-        return ret !== 0;
-    }
-    /**
-    * Sets the `callback` being invoked when new [`MediaStreamTrack`] is
-    * added.
-    * @param {Function} callback
-    */
-    on_track_added(callback) {
-        wasm.remotemediastream_on_track_added(this.ptr, addHeapObject(callback));
-    }
-    /**
-    * Sets the `callback` being invoked when [`MediaStreamTrack`] is enabled.
-    * @param {Function} callback
-    */
-    on_track_enabled(callback) {
-        wasm.remotemediastream_on_track_enabled(this.ptr, addHeapObject(callback));
-    }
-    /**
-    * Sets the `callback` being invoked when [`MediaStreamTrack`] is disabled.
-    * @param {Function} callback
-    */
-    on_track_disabled(callback) {
-        wasm.remotemediastream_on_track_disabled(this.ptr, addHeapObject(callback));
-    }
-}
-/**
 * Reason of why [`Room`] has been closed.
 *
 * This struct is passed into `on_close_by_server` JS side callback.
@@ -1011,14 +966,14 @@ export class RoomCloseReason {
     */
     reason() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.roomclosereason_reason(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -1079,24 +1034,24 @@ export class RoomHandle {
         wasm.roomhandle_on_close(this.ptr, addHeapObject(f));
     }
     /**
-    * Sets `on_local_stream` callback. This callback is invoked each time
-    * media acquisition request will resolve successfully. This might
-    * happen in such cases:
+    * Sets callback, which will be invoked when new local [`MediaStreamTrack`]
+    * will be added to this [`Room`].
+    * This might happen in such cases:
     * 1. Media server initiates media request.
     * 2. `unmute_audio`/`unmute_video` is called.
     * 3. [`MediaStreamSettings`] updated via `set_local_media_settings`.
     * @param {Function} f
     */
-    on_local_stream(f) {
-        wasm.roomhandle_on_local_stream(this.ptr, addHeapObject(f));
+    on_local_track(f) {
+        wasm.roomhandle_on_local_track(this.ptr, addHeapObject(f));
     }
     /**
-    * Sets `on_failed_local_stream` callback, which will be invoked on local
+    * Sets `on_failed_local_media` callback, which will be invoked on local
     * media acquisition failures.
     * @param {Function} f
     */
-    on_failed_local_stream(f) {
-        wasm.roomhandle_on_failed_local_stream(this.ptr, addHeapObject(f));
+    on_failed_local_media(f) {
+        wasm.roomhandle_on_failed_local_media(this.ptr, addHeapObject(f));
     }
     /**
     * Sets `on_connection_loss` callback, which will be invoked on
@@ -1112,9 +1067,9 @@ export class RoomHandle {
     *
     * Establishes connection with media server (if it doesn't already exist).
     * Fails if:
-    *   - `on_failed_local_stream` callback is not set
-    *   - `on_connection_loss` callback is not set
-    *   - unable to connect to media server.
+    * - `on_failed_local_media` callback is not set
+    * - `on_connection_loss` callback is not set
+    * - unable to connect to media server.
     *
     * Effectively returns `Result<(), JasonError>`.
     * @param {string} token
@@ -1134,7 +1089,7 @@ export class RoomHandle {
     * [`MediaStreamSettings`] update will change [`MediaStream`] in all
     * sending peers, so that might cause new [getUserMedia()][1] request.
     *
-    * Media obtaining/injection errors are fired to `on_failed_local_stream`
+    * Media obtaining/injection errors are fired to `on_failed_local_media`
     * callback.
     *
     * [`PeerConnection`]: crate::peer::PeerConnection
@@ -1255,10 +1210,6 @@ async function init(input) {
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
     };
-    imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
-        var ret = getObject(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbindgen_cb_drop = function(arg0) {
         const obj = takeObject(arg0).original;
         if (obj.cnt-- == 1) {
@@ -1268,12 +1219,36 @@ async function init(input) {
         var ret = false;
         return ret;
     };
+    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
+        var ret = ReconnectHandle.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_connectionhandle_new = function(arg0) {
+        var ret = ConnectionHandle.__wrap(arg0);
+        return addHeapObject(ret);
+    };
     imports.wbg.__wbindgen_number_new = function(arg0) {
         var ret = arg0;
         return addHeapObject(ret);
     };
+    imports.wbg.__wbg_roomclosereason_new = function(arg0) {
+        var ret = RoomCloseReason.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_mediatrack_new = function(arg0) {
+        var ret = MediaTrack.__wrap(arg0);
+        return addHeapObject(ret);
+    };
     imports.wbg.__wbg_jasonerror_new = function(arg0) {
         var ret = JasonError.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
+        var ret = getObject(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+        var ret = getStringFromWasm0(arg0, arg1);
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_getdisplaymedia_da88b7d1f14357f5 = handleError(function(arg0, arg1) {
@@ -1282,30 +1257,6 @@ async function init(input) {
     });
     imports.wbg.__wbg_inputdeviceinfo_new = function(arg0) {
         var ret = InputDeviceInfo.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_localmediastream_new = function(arg0) {
-        var ret = LocalMediaStream.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-        var ret = getStringFromWasm0(arg0, arg1);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_remotemediastream_new = function(arg0) {
-        var ret = RemoteMediaStream.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_connectionhandle_new = function(arg0) {
-        var ret = ConnectionHandle.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
-        var ret = ReconnectHandle.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_roomclosereason_new = function(arg0) {
-        var ret = RoomCloseReason.__wrap(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_is_undefined = function(arg0) {
@@ -1372,6 +1323,10 @@ async function init(input) {
         var ret = getObject(arg0).data;
         return addHeapObject(ret);
     };
+    imports.wbg.__wbg_replaceTrack_8b13cde4bb5185e6 = function(arg0, arg1) {
+        var ret = getObject(arg0).replaceTrack(getObject(arg1));
+        return addHeapObject(ret);
+    };
     imports.wbg.__wbg_track_9892f71ad211c93c = function(arg0) {
         var ret = getObject(arg0).track;
         return addHeapObject(ret);
@@ -1401,13 +1356,6 @@ async function init(input) {
     imports.wbg.__wbg_sdpMLineIndex_75dced3ab392eac4 = function(arg0) {
         var ret = getObject(arg0).sdpMLineIndex;
         return isLikeNone(ret) ? 0xFFFFFF : ret;
-    };
-    imports.wbg.__wbg_sdp_4f276ddda204cd9a = function(arg0, arg1) {
-        var ret = getObject(arg1).sdp;
-        var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len0 = WASM_VECTOR_LEN;
-        getInt32Memory0()[arg0 / 4 + 1] = len0;
-        getInt32Memory0()[arg0 / 4 + 0] = ptr0;
     };
     imports.wbg.__wbg_kind_eb7db7cdc7e4d77e = function(arg0, arg1) {
         var ret = getObject(arg1).kind;
@@ -1455,6 +1403,13 @@ async function init(input) {
     imports.wbg.__wbg_setdirection_8fb51fb1721865f4 = function(arg0, arg1) {
         getObject(arg0).direction = takeObject(arg1);
     };
+    imports.wbg.__wbg_sdp_4f276ddda204cd9a = function(arg0, arg1) {
+        var ret = getObject(arg1).sdp;
+        var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        var len0 = WASM_VECTOR_LEN;
+        getInt32Memory0()[arg0 / 4 + 1] = len0;
+        getInt32Memory0()[arg0 / 4 + 0] = ptr0;
+    };
     imports.wbg.__wbg_iceConnectionState_e63ebb4eb2b3c00d = function(arg0) {
         var ret = getObject(arg0).iceConnectionState;
         return addHeapObject(ret);
@@ -1478,8 +1433,8 @@ async function init(input) {
         var ret = getObject(arg0).createAnswer();
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_createOffer_d6a7e6d58c6d218c = function(arg0) {
-        var ret = getObject(arg0).createOffer();
+    imports.wbg.__wbg_createOffer_ab59d2c23c5fec4c = function(arg0, arg1) {
+        var ret = getObject(arg0).createOffer(getObject(arg1));
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_getStats_09c30c057abdcdcc = function(arg0) {
@@ -1498,26 +1453,13 @@ async function init(input) {
         var ret = getObject(arg0).setRemoteDescription(getObject(arg1));
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_mediaDevices_fd0bd76dc4a5a255 = handleError(function(arg0) {
-        var ret = getObject(arg0).mediaDevices;
-        return addHeapObject(ret);
-    });
-    imports.wbg.__wbg_new_77a54c9ff9182069 = handleError(function() {
-        var ret = new MediaStream();
-        return addHeapObject(ret);
-    });
-    imports.wbg.__wbg_addTrack_9876f28117af4ecd = function(arg0, arg1) {
-        getObject(arg0).addTrack(getObject(arg1));
-    };
     imports.wbg.__wbg_getTracks_ceaa6e96f5353c87 = function(arg0) {
         var ret = getObject(arg0).getTracks();
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_addEventListener_9e7b0c3f65ebc0d7 = handleError(function(arg0, arg1, arg2, arg3) {
-        getObject(arg0).addEventListener(getStringFromWasm0(arg1, arg2), getObject(arg3));
-    });
-    imports.wbg.__wbg_removeEventListener_e118aefce350c930 = handleError(function(arg0, arg1, arg2, arg3) {
-        getObject(arg0).removeEventListener(getStringFromWasm0(arg1, arg2), getObject(arg3));
+    imports.wbg.__wbg_mediaDevices_fd0bd76dc4a5a255 = handleError(function(arg0) {
+        var ret = getObject(arg0).mediaDevices;
+        return addHeapObject(ret);
     });
     imports.wbg.__wbg_enumerateDevices_42805cc51a7e667d = handleError(function(arg0) {
         var ret = getObject(arg0).enumerateDevices();
@@ -1526,6 +1468,12 @@ async function init(input) {
     imports.wbg.__wbg_getUserMedia_29ee69dc28a278d2 = handleError(function(arg0, arg1) {
         var ret = getObject(arg0).getUserMedia(getObject(arg1));
         return addHeapObject(ret);
+    });
+    imports.wbg.__wbg_addEventListener_9e7b0c3f65ebc0d7 = handleError(function(arg0, arg1, arg2, arg3) {
+        getObject(arg0).addEventListener(getStringFromWasm0(arg1, arg2), getObject(arg3));
+    });
+    imports.wbg.__wbg_removeEventListener_e118aefce350c930 = handleError(function(arg0, arg1, arg2, arg3) {
+        getObject(arg0).removeEventListener(getStringFromWasm0(arg1, arg2), getObject(arg3));
     });
     imports.wbg.__wbg_new_47519bef8e7b1faa = handleError(function(arg0, arg1) {
         var ret = new WebSocket(getStringFromWasm0(arg0, arg1));
@@ -1537,6 +1485,17 @@ async function init(input) {
     imports.wbg.__wbg_send_ffae55581a501355 = handleError(function(arg0, arg1, arg2) {
         getObject(arg0).send(getStringFromWasm0(arg1, arg2));
     });
+    imports.wbg.__wbg_code_59278c1672536fbe = function(arg0) {
+        var ret = getObject(arg0).code;
+        return ret;
+    };
+    imports.wbg.__wbg_reason_343f0883b42e3530 = function(arg0, arg1) {
+        var ret = getObject(arg1).reason;
+        var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        var len0 = WASM_VECTOR_LEN;
+        getInt32Memory0()[arg0 / 4 + 1] = len0;
+        getInt32Memory0()[arg0 / 4 + 0] = ptr0;
+    };
     imports.wbg.__wbg_deviceId_eebc946f70cd5344 = function(arg0, arg1) {
         var ret = getObject(arg1).deviceId;
         var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
@@ -1561,21 +1520,6 @@ async function init(input) {
         var len0 = WASM_VECTOR_LEN;
         getInt32Memory0()[arg0 / 4 + 1] = len0;
         getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-    };
-    imports.wbg.__wbg_code_59278c1672536fbe = function(arg0) {
-        var ret = getObject(arg0).code;
-        return ret;
-    };
-    imports.wbg.__wbg_reason_343f0883b42e3530 = function(arg0, arg1) {
-        var ret = getObject(arg1).reason;
-        var ptr0 = passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        var len0 = WASM_VECTOR_LEN;
-        getInt32Memory0()[arg0 / 4 + 1] = len0;
-        getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-    };
-    imports.wbg.__wbg_replaceTrack_8b13cde4bb5185e6 = function(arg0, arg1) {
-        var ret = getObject(arg0).replaceTrack(getObject(arg1));
-        return addHeapObject(ret);
     };
     imports.wbg.__wbg_get_27693110cb44e852 = function(arg0, arg1) {
         var ret = getObject(arg0)[arg1 >>> 0];
@@ -1672,7 +1616,7 @@ async function init(input) {
                 const a = state0.a;
                 state0.a = 0;
                 try {
-                    return __wbg_adapter_276(a, state0.b, arg0, arg1);
+                    return __wbg_adapter_266(a, state0.b, arg0, arg1);
                 } finally {
                     state0.a = a;
                 }
@@ -1740,28 +1684,28 @@ async function init(input) {
     imports.wbg.__wbindgen_rethrow = function(arg0) {
         throw takeObject(arg0);
     };
-    imports.wbg.__wbindgen_closure_wrapper1092 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 281, __wbg_adapter_30);
+    imports.wbg.__wbindgen_closure_wrapper1021 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 277, __wbg_adapter_30);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1093 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 281, __wbg_adapter_33);
+    imports.wbg.__wbindgen_closure_wrapper1022 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 277, __wbg_adapter_33);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1094 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 281, __wbg_adapter_36);
+    imports.wbg.__wbindgen_closure_wrapper1023 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 277, __wbg_adapter_36);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1097 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 281, __wbg_adapter_39);
+    imports.wbg.__wbindgen_closure_wrapper1026 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 277, __wbg_adapter_39);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1100 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 281, __wbg_adapter_42);
+    imports.wbg.__wbindgen_closure_wrapper1029 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 277, __wbg_adapter_42);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1595 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 456, __wbg_adapter_45);
+    imports.wbg.__wbindgen_closure_wrapper1586 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 455, __wbg_adapter_45);
         return addHeapObject(ret);
     };
 
