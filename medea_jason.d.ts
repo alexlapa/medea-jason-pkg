@@ -1,6 +1,21 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+* [MediaStreamTrack.kind][1] representation.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack-kind
+*/
+export enum MediaKind {
+/**
+* Audio track.
+*/
+  Audio,
+/**
+* Video track.
+*/
+  Video,
+}
+/**
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
@@ -23,6 +38,19 @@ export enum FacingMode {
 * Facing to the right of the user.
 */
   Right,
+}
+/**
+* Media source type.
+*/
+export enum MediaSourceKind {
+/**
+* Media is sourced from some media device (webcam or microphone).
+*/
+  Device,
+/**
+* Media is obtained with screen-capture.
+*/
+  Display,
 }
 /**
 * Constraints applicable to audio tracks.
@@ -133,9 +161,9 @@ export class InputDeviceInfo {
 * This representation of [MediaDeviceInfo][1] ONLY for input device.
 *
 * [1]: https://w3.org/TR/mediacapture-streams/#device-info
-* @returns {string}
+* @returns {number}
 */
-  kind(): string;
+  kind(): number;
 /**
 * Returns label describing the represented device (for example
 * "External USB Webcam").
@@ -311,9 +339,18 @@ export class MediaTrack {
 /**
 * Returns a [`String`] set to `audio` if the track is an audio track and
 * to `video`, if it is a video track.
-* @returns {string}
+* @returns {number}
 */
-  kind(): string;
+  kind(): number;
+/**
+* Returns a [`String`] set to `device` if track is sourced from some
+* device (webcam/microphone) and to `display`, if track is captured via
+* [MediaDevices.getDisplayMedia()][1].
+*
+* [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
+* @returns {number}
+*/
+  media_source_kind(): number;
 }
 /**
 * Handle that JS side can reconnect to the Medea media server on
@@ -468,15 +505,21 @@ export class RoomHandle {
 */
   unmute_audio(): Promise<any>;
 /**
-* Mutes outbound video in this [`Room`].
+* Mutes outbound video.
+*
+* Affects only video with specific [`JsMediaSourceKind`] if specified.
+* @param {number | undefined} source_kind
 * @returns {Promise<any>}
 */
-  mute_video(): Promise<any>;
+  mute_video(source_kind?: number): Promise<any>;
 /**
-* Unmutes outbound video in this [`Room`].
+* Unmutes outbound video.
+*
+* Affects only video with specific [`JsMediaSourceKind`] if specified.
+* @param {number | undefined} source_kind
 * @returns {Promise<any>}
 */
-  unmute_video(): Promise<any>;
+  unmute_video(source_kind?: number): Promise<any>;
 /**
 * Mutes inbound audio in this [`Room`].
 * @returns {Promise<any>}
@@ -503,40 +546,19 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_mediatrack_free: (a: number) => void;
-  readonly mediatrack_get_track: (a: number) => number;
-  readonly mediatrack_enabled: (a: number) => number;
-  readonly mediatrack_on_enabled: (a: number, b: number) => void;
-  readonly mediatrack_on_disabled: (a: number, b: number) => void;
-  readonly mediatrack_kind: (a: number, b: number) => void;
-  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
-  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
-  readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
+  readonly __wbg_jasonerror_free: (a: number) => void;
+  readonly jasonerror_name: (a: number, b: number) => void;
+  readonly jasonerror_message: (a: number, b: number) => void;
+  readonly jasonerror_trace: (a: number, b: number) => void;
+  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_jason_free: (a: number) => void;
   readonly jason_new: () => number;
   readonly jason_init_room: (a: number) => number;
   readonly jason_media_manager: (a: number) => number;
   readonly jason_dispose: (a: number) => void;
-  readonly __wbg_mediastreamsettings_free: (a: number) => void;
-  readonly mediastreamsettings_new: () => number;
-  readonly mediastreamsettings_audio: (a: number, b: number) => void;
-  readonly mediastreamsettings_device_video: (a: number, b: number) => void;
-  readonly mediastreamsettings_display_video: (a: number, b: number) => void;
-  readonly __wbg_audiotrackconstraints_free: (a: number) => void;
-  readonly audiotrackconstraints_new: () => number;
-  readonly audiotrackconstraints_device_id: (a: number, b: number, c: number) => void;
-  readonly devicevideotrackconstraints_new: () => number;
-  readonly devicevideotrackconstraints_exact_facing_mode: (a: number, b: number) => void;
-  readonly devicevideotrackconstraints_ideal_facing_mode: (a: number, b: number) => void;
-  readonly __wbg_displayvideotrackconstraints_free: (a: number) => void;
-  readonly displayvideotrackconstraints_new: () => number;
-  readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
-  readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
-  readonly __wbg_connectionhandle_free: (a: number) => void;
-  readonly connectionhandle_on_close: (a: number, b: number) => void;
-  readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
-  readonly connectionhandle_on_remote_track_added: (a: number, b: number) => void;
-  readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
+  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
+  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
+  readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
   readonly __wbg_roomclosereason_free: (a: number) => void;
   readonly roomclosereason_reason: (a: number, b: number) => void;
   readonly roomclosereason_is_closed_by_server: (a: number) => number;
@@ -551,33 +573,55 @@ export interface InitOutput {
   readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
   readonly roomhandle_mute_audio: (a: number) => number;
   readonly roomhandle_unmute_audio: (a: number) => number;
-  readonly roomhandle_mute_video: (a: number) => number;
-  readonly roomhandle_unmute_video: (a: number) => number;
+  readonly roomhandle_mute_video: (a: number, b: number) => number;
+  readonly roomhandle_unmute_video: (a: number, b: number) => number;
   readonly roomhandle_mute_remote_audio: (a: number) => number;
   readonly roomhandle_mute_remote_video: (a: number) => number;
   readonly roomhandle_unmute_remote_audio: (a: number) => number;
   readonly roomhandle_unmute_remote_video: (a: number) => number;
-  readonly __wbg_inputdeviceinfo_free: (a: number) => void;
-  readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
-  readonly inputdeviceinfo_kind: (a: number, b: number) => void;
-  readonly inputdeviceinfo_label: (a: number, b: number) => void;
-  readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
+  readonly __wbg_mediastreamsettings_free: (a: number) => void;
+  readonly mediastreamsettings_new: () => number;
+  readonly mediastreamsettings_audio: (a: number, b: number) => void;
+  readonly mediastreamsettings_device_video: (a: number, b: number) => void;
+  readonly mediastreamsettings_display_video: (a: number, b: number) => void;
+  readonly __wbg_audiotrackconstraints_free: (a: number) => void;
+  readonly audiotrackconstraints_new: () => number;
+  readonly audiotrackconstraints_device_id: (a: number, b: number, c: number) => void;
+  readonly devicevideotrackconstraints_new: () => number;
+  readonly devicevideotrackconstraints_exact_facing_mode: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_ideal_facing_mode: (a: number, b: number) => void;
+  readonly __wbg_displayvideotrackconstraints_free: (a: number) => void;
+  readonly displayvideotrackconstraints_new: () => number;
   readonly __wbg_reconnecthandle_free: (a: number) => void;
   readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
   readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
-  readonly __wbg_jasonerror_free: (a: number) => void;
-  readonly jasonerror_name: (a: number, b: number) => void;
-  readonly jasonerror_message: (a: number, b: number) => void;
-  readonly jasonerror_trace: (a: number, b: number) => void;
-  readonly jasonerror_source: (a: number) => number;
+  readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
+  readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
+  readonly __wbg_connectionhandle_free: (a: number) => void;
+  readonly connectionhandle_on_close: (a: number, b: number) => void;
+  readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
+  readonly connectionhandle_on_remote_track_added: (a: number, b: number) => void;
+  readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
+  readonly __wbg_inputdeviceinfo_free: (a: number) => void;
+  readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
+  readonly inputdeviceinfo_kind: (a: number) => number;
+  readonly inputdeviceinfo_label: (a: number, b: number) => void;
+  readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
+  readonly __wbg_mediatrack_free: (a: number) => void;
+  readonly mediatrack_get_track: (a: number) => number;
+  readonly mediatrack_enabled: (a: number) => number;
+  readonly mediatrack_on_enabled: (a: number, b: number) => void;
+  readonly mediatrack_on_disabled: (a: number, b: number) => void;
+  readonly mediatrack_kind: (a: number) => number;
+  readonly mediatrack_media_source_kind: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h2839eccfc6bc978c: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hb32110d5e4a698d4: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h03a92657a4cd0011: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0d633b7bc57e8b7e: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__hbecdc807be7d3301: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h9dddd499f61f5a46: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
