@@ -546,11 +546,6 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly __wbg_jasonerror_free: (a: number) => void;
-  readonly jasonerror_name: (a: number, b: number) => void;
-  readonly jasonerror_message: (a: number, b: number) => void;
-  readonly jasonerror_trace: (a: number, b: number) => void;
-  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_jason_free: (a: number) => void;
   readonly jason_new: () => number;
   readonly jason_init_room: (a: number) => number;
@@ -559,26 +554,11 @@ export interface InitOutput {
   readonly __wbg_mediamanagerhandle_free: (a: number) => void;
   readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
   readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
-  readonly __wbg_roomclosereason_free: (a: number) => void;
-  readonly roomclosereason_reason: (a: number, b: number) => void;
-  readonly roomclosereason_is_closed_by_server: (a: number) => number;
-  readonly roomclosereason_is_err: (a: number) => number;
-  readonly __wbg_roomhandle_free: (a: number) => void;
-  readonly roomhandle_on_new_connection: (a: number, b: number) => void;
-  readonly roomhandle_on_close: (a: number, b: number) => void;
-  readonly roomhandle_on_local_track: (a: number, b: number) => void;
-  readonly roomhandle_on_failed_local_media: (a: number, b: number) => void;
-  readonly roomhandle_on_connection_loss: (a: number, b: number) => void;
-  readonly roomhandle_join: (a: number, b: number, c: number) => number;
-  readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
-  readonly roomhandle_mute_audio: (a: number) => number;
-  readonly roomhandle_unmute_audio: (a: number) => number;
-  readonly roomhandle_mute_video: (a: number, b: number) => number;
-  readonly roomhandle_unmute_video: (a: number, b: number) => number;
-  readonly roomhandle_mute_remote_audio: (a: number) => number;
-  readonly roomhandle_mute_remote_video: (a: number) => number;
-  readonly roomhandle_unmute_remote_audio: (a: number) => number;
-  readonly roomhandle_unmute_remote_video: (a: number) => number;
+  readonly __wbg_jasonerror_free: (a: number) => void;
+  readonly jasonerror_name: (a: number, b: number) => void;
+  readonly jasonerror_message: (a: number, b: number) => void;
+  readonly jasonerror_trace: (a: number, b: number) => void;
+  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_mediastreamsettings_free: (a: number) => void;
   readonly mediastreamsettings_new: () => number;
   readonly mediastreamsettings_audio: (a: number, b: number) => void;
@@ -602,6 +582,26 @@ export interface InitOutput {
   readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
   readonly connectionhandle_on_remote_track_added: (a: number, b: number) => void;
   readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
+  readonly __wbg_roomclosereason_free: (a: number) => void;
+  readonly roomclosereason_reason: (a: number, b: number) => void;
+  readonly roomclosereason_is_closed_by_server: (a: number) => number;
+  readonly roomclosereason_is_err: (a: number) => number;
+  readonly __wbg_roomhandle_free: (a: number) => void;
+  readonly roomhandle_on_new_connection: (a: number, b: number) => void;
+  readonly roomhandle_on_close: (a: number, b: number) => void;
+  readonly roomhandle_on_local_track: (a: number, b: number) => void;
+  readonly roomhandle_on_failed_local_media: (a: number, b: number) => void;
+  readonly roomhandle_on_connection_loss: (a: number, b: number) => void;
+  readonly roomhandle_join: (a: number, b: number, c: number) => number;
+  readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
+  readonly roomhandle_mute_audio: (a: number) => number;
+  readonly roomhandle_unmute_audio: (a: number) => number;
+  readonly roomhandle_mute_video: (a: number, b: number) => number;
+  readonly roomhandle_unmute_video: (a: number, b: number) => number;
+  readonly roomhandle_mute_remote_audio: (a: number) => number;
+  readonly roomhandle_mute_remote_video: (a: number) => number;
+  readonly roomhandle_unmute_remote_audio: (a: number) => number;
+  readonly roomhandle_unmute_remote_video: (a: number) => number;
   readonly __wbg_inputdeviceinfo_free: (a: number) => void;
   readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
   readonly inputdeviceinfo_kind: (a: number) => number;
@@ -617,11 +617,11 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h03a92657a4cd0011: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0d633b7bc57e8b7e: (a: number, b: number, c: number) => void;
-  readonly __wbindgen_free: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h77d0481381a69de5: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h9dddd499f61f5a46: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbindgen_free: (a: number, b: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h9b295f5685f7f039: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
