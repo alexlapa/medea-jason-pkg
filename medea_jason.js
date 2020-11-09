@@ -8,6 +8,20 @@ heap.push(undefined, null, true, false);
 
 function getObject(idx) { return heap[idx]; }
 
+let heap_next = heap.length;
+
+function dropObject(idx) {
+    if (idx < 36) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
+}
+
 let WASM_VECTOR_LEN = 0;
 
 let cachegetUint8Memory0 = null;
@@ -79,18 +93,13 @@ function getInt32Memory0() {
     return cachegetInt32Memory0;
 }
 
-let heap_next = heap.length;
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
 
-function dropObject(idx) {
-    if (idx < 36) return;
-    heap[idx] = heap_next;
-    heap_next = idx;
-}
-
-function takeObject(idx) {
-    const ret = getObject(idx);
-    dropObject(idx);
-    return ret;
+    heap[idx] = obj;
+    return idx;
 }
 
 let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
@@ -99,15 +108,6 @@ cachedTextDecoder.decode();
 
 function getStringFromWasm0(ptr, len) {
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
-}
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
 }
 
 function isLikeNone(x) {
@@ -204,27 +204,34 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_30(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_33(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_36(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_39(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_42(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_45(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h77d0481381a69de5(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h843fc22b67860888(arg0, arg1, addHeapObject(arg2));
+}
+
+function _assertClass(instance, klass) {
+    if (!(instance instanceof klass)) {
+        throw new Error(`expected instance of ${klass.name}`);
+    }
+    return instance.ptr;
 }
 
 function handleError(f) {
@@ -237,15 +244,8 @@ function handleError(f) {
         }
     };
 }
-
-function _assertClass(instance, klass) {
-    if (!(instance instanceof klass)) {
-        throw new Error(`expected instance of ${klass.name}`);
-    }
-    return instance.ptr;
-}
-function __wbg_adapter_269(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures__invoke2_mut__h9b295f5685f7f039(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+function __wbg_adapter_270(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures__invoke2_mut__h63fe55e826c0e68b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
 }
 
 /**
@@ -617,6 +617,16 @@ export class Jason {
         return MediaManagerHandle.__wrap(ret);
     }
     /**
+    * Closes the provided [`Room`].
+    * @param {RoomHandle} room_to_delete
+    */
+    close_room(room_to_delete) {
+        _assertClass(room_to_delete, RoomHandle);
+        var ptr0 = room_to_delete.ptr;
+        room_to_delete.ptr = 0;
+        wasm.jason_close_room(this.ptr, ptr0);
+    }
+    /**
     * Drops [`Jason`] API object, so all related objects (rooms, connections,
     * streams etc.) respectively. All objects related to this [`Jason`] API
     * object will be detached (you will still hold them, but unable to use).
@@ -922,7 +932,7 @@ export class ReconnectHandle {
     /**
     * Tries to reconnect after the provided delay in milliseconds.
     *
-    * If [`RpcClient`] is already reconnecting then new reconnection attempt
+    * If [`RpcSession`] is already reconnecting then new reconnection attempt
     * won't be performed. Instead, it will wait for the first reconnection
     * attempt result and use it here.
     * @param {number} delay_ms
@@ -933,7 +943,8 @@ export class ReconnectHandle {
         return takeObject(ret);
     }
     /**
-    * Tries to reconnect [`RpcClient`] in a loop with a growing backoff delay.
+    * Tries to reconnect [`RpcSession`] in a loop with a growing backoff
+    * delay.
     *
     * The first attempt to reconnect is guaranteed to happen no earlier than
     * `starting_delay_ms`.
@@ -944,7 +955,7 @@ export class ReconnectHandle {
     * After each reconnection attempt, delay between reconnections will be
     * multiplied by the given `multiplier` until it reaches `max_delay_ms`.
     *
-    * If [`RpcClient`] is already reconnecting then new reconnection attempt
+    * If [`RpcSession`] is already reconnecting then new reconnection attempt
     * won't be performed. Instead, it will wait for the first reconnection
     * attempt result and use it here.
     *
@@ -1075,7 +1086,7 @@ export class RoomHandle {
     }
     /**
     * Sets `on_connection_loss` callback, which will be invoked on
-    * [`RpcClient`] connection loss.
+    * [`WebSocketRpcClient`] connection loss.
     * @param {Function} f
     */
     on_connection_loss(f) {
@@ -1233,6 +1244,9 @@ async function init(input) {
     }
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
+        takeObject(arg0);
+    };
     imports.wbg.__wbindgen_json_serialize = function(arg0, arg1) {
         const obj = getObject(arg1);
         var ret = JSON.stringify(obj === undefined ? null : obj);
@@ -1240,13 +1254,6 @@ async function init(input) {
         var len0 = WASM_VECTOR_LEN;
         getInt32Memory0()[arg0 / 4 + 1] = len0;
         getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-    };
-    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
-        takeObject(arg0);
-    };
-    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-        var ret = getStringFromWasm0(arg0, arg1);
-        return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_cb_drop = function(arg0) {
         const obj = takeObject(arg0).original;
@@ -1256,6 +1263,10 @@ async function init(input) {
         }
         var ret = false;
         return ret;
+    };
+    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
+        var ret = ReconnectHandle.__wrap(arg0);
+        return addHeapObject(ret);
     };
     imports.wbg.__wbg_jasonerror_new = function(arg0) {
         var ret = JasonError.__wrap(arg0);
@@ -1277,12 +1288,12 @@ async function init(input) {
         var ret = MediaTrack.__wrap(arg0);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
-        var ret = ReconnectHandle.__wrap(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbindgen_number_new = function(arg0) {
         var ret = arg0;
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+        var ret = getStringFromWasm0(arg0, arg1);
         return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
@@ -1646,7 +1657,7 @@ async function init(input) {
                 const a = state0.a;
                 state0.a = 0;
                 try {
-                    return __wbg_adapter_269(a, state0.b, arg0, arg1);
+                    return __wbg_adapter_270(a, state0.b, arg0, arg1);
                 } finally {
                     state0.a = a;
                 }
@@ -1714,28 +1725,28 @@ async function init(input) {
     imports.wbg.__wbindgen_rethrow = function(arg0) {
         throw takeObject(arg0);
     };
-    imports.wbg.__wbindgen_closure_wrapper1172 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 324, __wbg_adapter_30);
+    imports.wbg.__wbindgen_closure_wrapper1219 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_30);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1173 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 324, __wbg_adapter_33);
+    imports.wbg.__wbindgen_closure_wrapper1220 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_33);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1175 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 324, __wbg_adapter_36);
+    imports.wbg.__wbindgen_closure_wrapper1221 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_36);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1177 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 324, __wbg_adapter_39);
+    imports.wbg.__wbindgen_closure_wrapper1223 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_39);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1179 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 324, __wbg_adapter_42);
+    imports.wbg.__wbindgen_closure_wrapper1227 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_42);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1655 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 464, __wbg_adapter_45);
+    imports.wbg.__wbindgen_closure_wrapper1888 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 545, __wbg_adapter_45);
         return addHeapObject(ret);
     };
 

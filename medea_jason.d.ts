@@ -207,6 +207,11 @@ export class Jason {
 */
   media_manager(): MediaManagerHandle;
 /**
+* Closes the provided [`Room`].
+* @param {RoomHandle} room_to_delete
+*/
+  close_room(room_to_delete: RoomHandle): void;
+/**
 * Drops [`Jason`] API object, so all related objects (rooms, connections,
 * streams etc.) respectively. All objects related to this [`Jason`] API
 * object will be detached (you will still hold them, but unable to use).
@@ -363,7 +368,7 @@ export class ReconnectHandle {
 /**
 * Tries to reconnect after the provided delay in milliseconds.
 *
-* If [`RpcClient`] is already reconnecting then new reconnection attempt
+* If [`RpcSession`] is already reconnecting then new reconnection attempt
 * won't be performed. Instead, it will wait for the first reconnection
 * attempt result and use it here.
 * @param {number} delay_ms
@@ -371,7 +376,8 @@ export class ReconnectHandle {
 */
   reconnect_with_delay(delay_ms: number): Promise<any>;
 /**
-* Tries to reconnect [`RpcClient`] in a loop with a growing backoff delay.
+* Tries to reconnect [`RpcSession`] in a loop with a growing backoff
+* delay.
 *
 * The first attempt to reconnect is guaranteed to happen no earlier than
 * `starting_delay_ms`.
@@ -382,7 +388,7 @@ export class ReconnectHandle {
 * After each reconnection attempt, delay between reconnections will be
 * multiplied by the given `multiplier` until it reaches `max_delay_ms`.
 *
-* If [`RpcClient`] is already reconnecting then new reconnection attempt
+* If [`RpcSession`] is already reconnecting then new reconnection attempt
 * won't be performed. Instead, it will wait for the first reconnection
 * attempt result and use it here.
 *
@@ -458,7 +464,7 @@ export class RoomHandle {
   on_failed_local_media(f: Function): void;
 /**
 * Sets `on_connection_loss` callback, which will be invoked on
-* [`RpcClient`] connection loss.
+* [`WebSocketRpcClient`] connection loss.
 * @param {Function} f
 */
   on_connection_loss(f: Function): void;
@@ -546,19 +552,18 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_reconnecthandle_free: (a: number) => void;
+  readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
+  readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
   readonly __wbg_jason_free: (a: number) => void;
   readonly jason_new: () => number;
   readonly jason_init_room: (a: number) => number;
   readonly jason_media_manager: (a: number) => number;
+  readonly jason_close_room: (a: number, b: number) => void;
   readonly jason_dispose: (a: number) => void;
   readonly __wbg_mediamanagerhandle_free: (a: number) => void;
   readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
   readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
-  readonly __wbg_jasonerror_free: (a: number) => void;
-  readonly jasonerror_name: (a: number, b: number) => void;
-  readonly jasonerror_message: (a: number, b: number) => void;
-  readonly jasonerror_trace: (a: number, b: number) => void;
-  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_mediastreamsettings_free: (a: number) => void;
   readonly mediastreamsettings_new: () => number;
   readonly mediastreamsettings_audio: (a: number, b: number) => void;
@@ -572,11 +577,13 @@ export interface InitOutput {
   readonly devicevideotrackconstraints_ideal_facing_mode: (a: number, b: number) => void;
   readonly __wbg_displayvideotrackconstraints_free: (a: number) => void;
   readonly displayvideotrackconstraints_new: () => number;
-  readonly __wbg_reconnecthandle_free: (a: number) => void;
-  readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
-  readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
   readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
   readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
+  readonly __wbg_jasonerror_free: (a: number) => void;
+  readonly jasonerror_name: (a: number, b: number) => void;
+  readonly jasonerror_message: (a: number, b: number) => void;
+  readonly jasonerror_trace: (a: number, b: number) => void;
+  readonly jasonerror_source: (a: number) => number;
   readonly __wbg_connectionhandle_free: (a: number) => void;
   readonly connectionhandle_on_close: (a: number, b: number) => void;
   readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
@@ -617,11 +624,11 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h1c252a971e6be44c: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h77d0481381a69de5: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h843fc22b67860888: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h9b295f5685f7f039: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h63fe55e826c0e68b: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
