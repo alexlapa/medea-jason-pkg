@@ -1069,7 +1069,7 @@ export class RoomHandle {
     * will be added to this [`Room`].
     * This might happen in such cases:
     * 1. Media server initiates media request.
-    * 2. `unmute_audio`/`unmute_video` is called.
+    * 2. `disable_audio`/`enable_video` is called.
     * 3. [`MediaStreamSettings`] updated via `set_local_media_settings`.
     * @param {Function} f
     */
@@ -1134,73 +1134,73 @@ export class RoomHandle {
         return takeObject(ret);
     }
     /**
-    * Mutes outbound audio in this [`Room`].
+    * Disables outbound audio in this [`Room`].
     * @returns {Promise<any>}
     */
-    mute_audio() {
-        var ret = wasm.roomhandle_mute_audio(this.ptr);
+    disable_audio() {
+        var ret = wasm.roomhandle_disable_audio(this.ptr);
         return takeObject(ret);
     }
     /**
-    * Unmutes outbound audio in this [`Room`].
+    * Enables outbound audio in this [`Room`].
     * @returns {Promise<any>}
     */
-    unmute_audio() {
-        var ret = wasm.roomhandle_unmute_audio(this.ptr);
+    enable_audio() {
+        var ret = wasm.roomhandle_enable_audio(this.ptr);
         return takeObject(ret);
     }
     /**
-    * Mutes outbound video.
+    * Disables outbound video.
     *
     * Affects only video with specific [`JsMediaSourceKind`] if specified.
     * @param {number | undefined} source_kind
     * @returns {Promise<any>}
     */
-    mute_video(source_kind) {
-        var ret = wasm.roomhandle_mute_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
+    disable_video(source_kind) {
+        var ret = wasm.roomhandle_disable_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
         return takeObject(ret);
     }
     /**
-    * Unmutes outbound video.
+    * Enables outbound video.
     *
     * Affects only video with specific [`JsMediaSourceKind`] if specified.
     * @param {number | undefined} source_kind
     * @returns {Promise<any>}
     */
-    unmute_video(source_kind) {
-        var ret = wasm.roomhandle_unmute_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
+    enable_video(source_kind) {
+        var ret = wasm.roomhandle_enable_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
         return takeObject(ret);
     }
     /**
-    * Mutes inbound audio in this [`Room`].
+    * Disables inbound audio in this [`Room`].
     * @returns {Promise<any>}
     */
-    mute_remote_audio() {
-        var ret = wasm.roomhandle_mute_remote_audio(this.ptr);
+    disable_remote_audio() {
+        var ret = wasm.roomhandle_disable_remote_audio(this.ptr);
         return takeObject(ret);
     }
     /**
-    * Mutes inbound video in this [`Room`].
+    * Disables inbound video in this [`Room`].
     * @returns {Promise<any>}
     */
-    mute_remote_video() {
-        var ret = wasm.roomhandle_mute_remote_video(this.ptr);
+    disable_remote_video() {
+        var ret = wasm.roomhandle_disable_remote_video(this.ptr);
         return takeObject(ret);
     }
     /**
-    * Unmutes inbound audio in this [`Room`].
+    * Enables inbound audio in this [`Room`].
     * @returns {Promise<any>}
     */
-    unmute_remote_audio() {
-        var ret = wasm.roomhandle_unmute_remote_audio(this.ptr);
+    enable_remote_audio() {
+        var ret = wasm.roomhandle_enable_remote_audio(this.ptr);
         return takeObject(ret);
     }
     /**
-    * Unmutes inbound video in this [`Room`].
+    * Enables inbound video in this [`Room`].
     * @returns {Promise<any>}
     */
-    unmute_remote_video() {
-        var ret = wasm.roomhandle_unmute_remote_video(this.ptr);
+    enable_remote_video() {
+        var ret = wasm.roomhandle_enable_remote_video(this.ptr);
         return takeObject(ret);
     }
 }
@@ -1745,7 +1745,7 @@ async function init(input) {
         var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_42);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1888 = function(arg0, arg1, arg2) {
+    imports.wbg.__wbindgen_closure_wrapper1886 = function(arg0, arg1, arg2) {
         var ret = makeMutClosure(arg0, arg1, 545, __wbg_adapter_45);
         return addHeapObject(ret);
     };

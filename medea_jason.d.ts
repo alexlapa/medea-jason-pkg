@@ -451,7 +451,7 @@ export class RoomHandle {
 * will be added to this [`Room`].
 * This might happen in such cases:
 * 1. Media server initiates media request.
-* 2. `unmute_audio`/`unmute_video` is called.
+* 2. `disable_audio`/`enable_video` is called.
 * 3. [`MediaStreamSettings`] updated via `set_local_media_settings`.
 * @param {Function} f
 */
@@ -501,51 +501,51 @@ export class RoomHandle {
 */
   set_local_media_settings(settings: MediaStreamSettings): Promise<any>;
 /**
-* Mutes outbound audio in this [`Room`].
+* Disables outbound audio in this [`Room`].
 * @returns {Promise<any>}
 */
-  mute_audio(): Promise<any>;
+  disable_audio(): Promise<any>;
 /**
-* Unmutes outbound audio in this [`Room`].
+* Enables outbound audio in this [`Room`].
 * @returns {Promise<any>}
 */
-  unmute_audio(): Promise<any>;
+  enable_audio(): Promise<any>;
 /**
-* Mutes outbound video.
+* Disables outbound video.
 *
 * Affects only video with specific [`JsMediaSourceKind`] if specified.
 * @param {number | undefined} source_kind
 * @returns {Promise<any>}
 */
-  mute_video(source_kind?: number): Promise<any>;
+  disable_video(source_kind?: number): Promise<any>;
 /**
-* Unmutes outbound video.
+* Enables outbound video.
 *
 * Affects only video with specific [`JsMediaSourceKind`] if specified.
 * @param {number | undefined} source_kind
 * @returns {Promise<any>}
 */
-  unmute_video(source_kind?: number): Promise<any>;
+  enable_video(source_kind?: number): Promise<any>;
 /**
-* Mutes inbound audio in this [`Room`].
+* Disables inbound audio in this [`Room`].
 * @returns {Promise<any>}
 */
-  mute_remote_audio(): Promise<any>;
+  disable_remote_audio(): Promise<any>;
 /**
-* Mutes inbound video in this [`Room`].
+* Disables inbound video in this [`Room`].
 * @returns {Promise<any>}
 */
-  mute_remote_video(): Promise<any>;
+  disable_remote_video(): Promise<any>;
 /**
-* Unmutes inbound audio in this [`Room`].
+* Enables inbound audio in this [`Room`].
 * @returns {Promise<any>}
 */
-  unmute_remote_audio(): Promise<any>;
+  enable_remote_audio(): Promise<any>;
 /**
-* Unmutes inbound video in this [`Room`].
+* Enables inbound video in this [`Room`].
 * @returns {Promise<any>}
 */
-  unmute_remote_video(): Promise<any>;
+  enable_remote_video(): Promise<any>;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -601,14 +601,14 @@ export interface InitOutput {
   readonly roomhandle_on_connection_loss: (a: number, b: number) => void;
   readonly roomhandle_join: (a: number, b: number, c: number) => number;
   readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
-  readonly roomhandle_mute_audio: (a: number) => number;
-  readonly roomhandle_unmute_audio: (a: number) => number;
-  readonly roomhandle_mute_video: (a: number, b: number) => number;
-  readonly roomhandle_unmute_video: (a: number, b: number) => number;
-  readonly roomhandle_mute_remote_audio: (a: number) => number;
-  readonly roomhandle_mute_remote_video: (a: number) => number;
-  readonly roomhandle_unmute_remote_audio: (a: number) => number;
-  readonly roomhandle_unmute_remote_video: (a: number) => number;
+  readonly roomhandle_disable_audio: (a: number) => number;
+  readonly roomhandle_enable_audio: (a: number) => number;
+  readonly roomhandle_disable_video: (a: number, b: number) => number;
+  readonly roomhandle_enable_video: (a: number, b: number) => number;
+  readonly roomhandle_disable_remote_audio: (a: number) => number;
+  readonly roomhandle_disable_remote_video: (a: number) => number;
+  readonly roomhandle_enable_remote_audio: (a: number) => number;
+  readonly roomhandle_enable_remote_video: (a: number) => number;
   readonly __wbg_inputdeviceinfo_free: (a: number) => void;
   readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
   readonly inputdeviceinfo_kind: (a: number) => number;
