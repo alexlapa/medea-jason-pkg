@@ -16,6 +16,19 @@ export enum MediaKind {
   Video,
 }
 /**
+* Media source type.
+*/
+export enum MediaSourceKind {
+/**
+* Media is sourced from some media device (webcam or microphone).
+*/
+  Device,
+/**
+* Media is obtained with screen-capture.
+*/
+  Display,
+}
+/**
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
@@ -38,19 +51,6 @@ export enum FacingMode {
 * Facing to the right of the user.
 */
   Right,
-}
-/**
-* Media source type.
-*/
-export enum MediaSourceKind {
-/**
-* Media is sourced from some media device (webcam or microphone).
-*/
-  Device,
-/**
-* Media is obtained with screen-capture.
-*/
-  Display,
 }
 /**
 * Constraints applicable to audio tracks.
@@ -87,8 +87,8 @@ export class ConnectionHandle {
 */
   get_remote_member_id(): string;
 /**
-* Sets callback, which will be invoked when new remote
-* [`MediaStreamTrack`] will be added to this [`Connection`].
+* Sets callback, which will be invoked when new [`remote::Track`] will be
+* added to this [`Connection`].
 * @param {Function} f
 */
   on_remote_track_added(f: Function): void;
@@ -197,17 +197,17 @@ export class Jason {
 */
   constructor();
 /**
-* Returns [`RoomHandle`] for [`Room`].
+* Creates new [`Room`] and returns its [`RoomHandle`].
 * @returns {RoomHandle}
 */
   init_room(): RoomHandle;
 /**
-* Returns handle to [`MediaManager`].
+* Returns [`MediaManagerHandle`].
 * @returns {MediaManagerHandle}
 */
   media_manager(): MediaManagerHandle;
 /**
-* Closes the provided [`Room`].
+* Closes the provided [`RoomHandle`].
 * @param {RoomHandle} room_to_delete
 */
   close_room(room_to_delete: RoomHandle): void;
@@ -247,15 +247,41 @@ export class JasonError {
   source(): Error | undefined;
 }
 /**
+* Wrapper around strongly referenced [`Track`] for JS side.
+*/
+export class LocalMediaTrack {
+  free(): void;
+/**
+* Returns the underlying [`sys::MediaStreamTrack`] of this [`JsTrack`].
+* @returns {MediaStreamTrack}
+*/
+  get_track(): MediaStreamTrack;
+/**
+* Returns [`MediaKind::Audio`] if this [`JsTrack`] represents an audio
+* track, or [`MediaKind::Video`] if it represents a video track.
+* @returns {number}
+*/
+  kind(): number;
+/**
+* Returns [`JsMediaSourceKind::Device`] if this [`JsTrack`] is sourced
+* from some device (webcam/microphone), or [`JsMediaSourceKind::Display`]
+* if ot is captured via [MediaDevices.getDisplayMedia()][1].
+*
+* [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
+* @returns {number}
+*/
+  media_source_kind(): number;
+}
+/**
 * JS side handle to [`MediaManager`].
 *
 * [`MediaManager`] performs all media acquisition requests
 * ([getUserMedia()][1]/[getDisplayMedia()][2]) and stores all received tracks
 * for further reusage.
 *
-* [`MediaManager`] stores weak references to [`MediaStreamTrack`]s, so if
-* there are no strong references to some track, then this track is stopped
-* and deleted from [`MediaManager`].
+* [`MediaManager`] stores weak references to [`local::Track`]s, so if there
+* are no strong references to some track, then this track is stopped and
+* deleted from [`MediaManager`].
 *
 * [1]: https://w3.org/TR/mediacapture-streams/#dom-mediadevices-getusermedia
 * [2]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
@@ -270,7 +296,7 @@ export class MediaManagerHandle {
 */
   enumerate_devices(): Promise<any>;
 /**
-* Returns [`MediaStreamTrack`]s objects, built from provided
+* Returns [`local::JsTrack`]s objects, built from provided
 * [`MediaStreamSettings`].
 * @param {MediaStreamSettings} caps
 * @returns {Promise<any>}
@@ -285,7 +311,7 @@ export class MediaManagerHandle {
 export class MediaStreamSettings {
   free(): void;
 /**
-* Creates new [`MediaStreamConstraints`] with none constraints configured.
+* Creates new [`MediaStreamSettings`] with none constraints configured.
 */
   constructor();
 /**
@@ -307,55 +333,6 @@ export class MediaStreamSettings {
 * @param {DisplayVideoTrackConstraints} constraints
 */
   display_video(constraints: DisplayVideoTrackConstraints): void;
-}
-/**
-* Strong reference to [MediaStreamTrack][1].
-*
-* Track will be automatically stopped when there are no strong references
-* left.
-*
-* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack
-*/
-export class MediaTrack {
-  free(): void;
-/**
-* Returns underlying [`SysMediaStreamTrack`] from this
-* [`MediaStreamTrack`].
-* @returns {MediaStreamTrack}
-*/
-  get_track(): MediaStreamTrack;
-/**
-* Returns is this [`MediaStreamTrack`] enabled.
-* @returns {boolean}
-*/
-  enabled(): boolean;
-/**
-* Sets callback, which will be invoked when this [`MediaStreamTrack`] is
-* enabled.
-* @param {Function} callback
-*/
-  on_enabled(callback: Function): void;
-/**
-* Sets callback, which will be invoked when this [`MediaStreamTrack`] is
-* enabled.
-* @param {Function} callback
-*/
-  on_disabled(callback: Function): void;
-/**
-* Returns a [`String`] set to `audio` if the track is an audio track and
-* to `video`, if it is a video track.
-* @returns {number}
-*/
-  kind(): number;
-/**
-* Returns a [`String`] set to `device` if track is sourced from some
-* device (webcam/microphone) and to `display`, if track is captured via
-* [MediaDevices.getDisplayMedia()][1].
-*
-* [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
-* @returns {number}
-*/
-  media_source_kind(): number;
 }
 /**
 * Handle that JS side can reconnect to the Medea media server on
@@ -402,6 +379,49 @@ export class ReconnectHandle {
   reconnect_with_backoff(starting_delay_ms: number, multiplier: number, max_delay: number): Promise<any>;
 }
 /**
+* Wrapper around [MediaStreamTrack][1] received from the remote.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack
+*/
+export class RemoteMediaTrack {
+  free(): void;
+/**
+* Returns the underlying [`sys::MediaStreamTrack`] of this [`Track`].
+* @returns {MediaStreamTrack}
+*/
+  get_track(): MediaStreamTrack;
+/**
+* Indicate whether this [`Track`] is enabled.
+* @returns {boolean}
+*/
+  enabled(): boolean;
+/**
+* Sets callback to invoke when this [`Track`] is enabled.
+* @param {Function} callback
+*/
+  on_enabled(callback: Function): void;
+/**
+* Sets callback to invoke when this [`Track`] is disabled.
+* @param {Function} callback
+*/
+  on_disabled(callback: Function): void;
+/**
+* Returns [`MediaKind::Audio`] if this [`Track`] represents an audio
+* track, or [`MediaKind::Video`] if it represents a video track.
+* @returns {number}
+*/
+  kind(): number;
+/**
+* Returns [`JsMediaSourceKind::Device`] if this [`Track`] is sourced from
+* some device (webcam/microphone), or [`JsMediaSourceKind::Display`] if
+* it's captured via [MediaDevices.getDisplayMedia()][1].
+*
+* [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
+* @returns {number}
+*/
+  media_source_kind(): number;
+}
+/**
 * Reason of why [`Room`] has been closed.
 *
 * This struct is passed into `on_close_by_server` JS side callback.
@@ -437,6 +457,8 @@ export class RoomHandle {
 /**
 * Sets callback, which will be invoked when new [`Connection`] with some
 * remote `Peer` is established.
+*
+* [`Connection`]: crate::api::Connection
 * @param {Function} f
 */
   on_new_connection(f: Function): void;
@@ -447,8 +469,8 @@ export class RoomHandle {
 */
   on_close(f: Function): void;
 /**
-* Sets callback, which will be invoked when new local [`MediaStreamTrack`]
-* will be added to this [`Room`].
+* Sets callback, which will be invoked when new [`local::Track`] will be
+* added to this [`Room`].
 * This might happen in such cases:
 * 1. Media server initiates media request.
 * 2. `disable_audio`/`enable_video` is called.
@@ -463,8 +485,8 @@ export class RoomHandle {
 */
   on_failed_local_media(f: Function): void;
 /**
-* Sets `on_connection_loss` callback, which will be invoked on
-* [`WebSocketRpcClient`] connection loss.
+* Sets `on_connection_loss` callback, which will be invoked on connection
+* with server loss.
 * @param {Function} f
 */
   on_connection_loss(f: Function): void;
@@ -486,20 +508,42 @@ export class RoomHandle {
 /**
 * Updates this [`Room`]s [`MediaStreamSettings`]. This affects all
 * [`PeerConnection`]s in this [`Room`]. If [`MediaStreamSettings`] is
-* configured for some [`Room`], then this [`Room`] can only send
-* [`MediaStream`] that corresponds to this settings.
-* [`MediaStreamSettings`] update will change [`MediaStream`] in all
-* sending peers, so that might cause new [getUserMedia()][1] request.
+* configured for some [`Room`], then this [`Room`] can only send media
+* tracks that correspond to this settings. [`MediaStreamSettings`]
+* update will change media tracks in all sending peers, so that might
+* cause new [getUserMedia()][1] request.
 *
 * Media obtaining/injection errors are fired to `on_failed_local_media`
 * callback.
 *
 * [`PeerConnection`]: crate::peer::PeerConnection
-* [1]: https://tinyurl.com/rnxcavf
+* [1]: https://tinyurl.com/w3-streams#dom-mediadevices-getusermedia
 * @param {MediaStreamSettings} settings
 * @returns {Promise<any>}
 */
   set_local_media_settings(settings: MediaStreamSettings): Promise<any>;
+/**
+* Mutes outbound audio in this [`Room`].
+* @returns {Promise<any>}
+*/
+  mute_audio(): Promise<any>;
+/**
+* Unmutes outbound audio in this [`Room`].
+* @returns {Promise<any>}
+*/
+  unmute_audio(): Promise<any>;
+/**
+* Mutes outbound video in this [`Room`].
+* @param {number | undefined} source_kind
+* @returns {Promise<any>}
+*/
+  mute_video(source_kind?: number): Promise<any>;
+/**
+* Unmutes outbound video in this [`Room`].
+* @param {number | undefined} source_kind
+* @returns {Promise<any>}
+*/
+  unmute_video(source_kind?: number): Promise<any>;
 /**
 * Disables outbound audio in this [`Room`].
 * @returns {Promise<any>}
@@ -552,6 +596,21 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly __wbg_jasonerror_free: (a: number) => void;
+  readonly jasonerror_name: (a: number, b: number) => void;
+  readonly jasonerror_message: (a: number, b: number) => void;
+  readonly jasonerror_trace: (a: number, b: number) => void;
+  readonly jasonerror_source: (a: number) => number;
+  readonly __wbg_connectionhandle_free: (a: number) => void;
+  readonly connectionhandle_on_close: (a: number, b: number) => void;
+  readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
+  readonly connectionhandle_on_remote_track_added: (a: number, b: number) => void;
+  readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
+  readonly __wbg_inputdeviceinfo_free: (a: number) => void;
+  readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
+  readonly inputdeviceinfo_kind: (a: number) => number;
+  readonly inputdeviceinfo_label: (a: number, b: number) => void;
+  readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
   readonly __wbg_reconnecthandle_free: (a: number) => void;
   readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
   readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
@@ -561,6 +620,17 @@ export interface InitOutput {
   readonly jason_media_manager: (a: number) => number;
   readonly jason_close_room: (a: number, b: number) => void;
   readonly jason_dispose: (a: number) => void;
+  readonly __wbg_localmediatrack_free: (a: number) => void;
+  readonly localmediatrack_get_track: (a: number) => number;
+  readonly localmediatrack_kind: (a: number) => number;
+  readonly localmediatrack_media_source_kind: (a: number) => number;
+  readonly __wbg_remotemediatrack_free: (a: number) => void;
+  readonly remotemediatrack_enabled: (a: number) => number;
+  readonly remotemediatrack_on_enabled: (a: number, b: number) => void;
+  readonly remotemediatrack_on_disabled: (a: number, b: number) => void;
+  readonly remotemediatrack_kind: (a: number) => number;
+  readonly remotemediatrack_media_source_kind: (a: number) => number;
+  readonly remotemediatrack_get_track: (a: number) => number;
   readonly __wbg_mediamanagerhandle_free: (a: number) => void;
   readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
   readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
@@ -579,16 +649,6 @@ export interface InitOutput {
   readonly displayvideotrackconstraints_new: () => number;
   readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
   readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
-  readonly __wbg_jasonerror_free: (a: number) => void;
-  readonly jasonerror_name: (a: number, b: number) => void;
-  readonly jasonerror_message: (a: number, b: number) => void;
-  readonly jasonerror_trace: (a: number, b: number) => void;
-  readonly jasonerror_source: (a: number) => number;
-  readonly __wbg_connectionhandle_free: (a: number) => void;
-  readonly connectionhandle_on_close: (a: number, b: number) => void;
-  readonly connectionhandle_get_remote_member_id: (a: number, b: number) => void;
-  readonly connectionhandle_on_remote_track_added: (a: number, b: number) => void;
-  readonly connectionhandle_on_quality_score_update: (a: number, b: number) => void;
   readonly __wbg_roomclosereason_free: (a: number) => void;
   readonly roomclosereason_reason: (a: number, b: number) => void;
   readonly roomclosereason_is_closed_by_server: (a: number) => number;
@@ -601,6 +661,10 @@ export interface InitOutput {
   readonly roomhandle_on_connection_loss: (a: number, b: number) => void;
   readonly roomhandle_join: (a: number, b: number, c: number) => number;
   readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
+  readonly roomhandle_mute_audio: (a: number) => number;
+  readonly roomhandle_unmute_audio: (a: number) => number;
+  readonly roomhandle_mute_video: (a: number, b: number) => number;
+  readonly roomhandle_unmute_video: (a: number, b: number) => number;
   readonly roomhandle_disable_audio: (a: number) => number;
   readonly roomhandle_enable_audio: (a: number) => number;
   readonly roomhandle_disable_video: (a: number, b: number) => number;
@@ -609,26 +673,14 @@ export interface InitOutput {
   readonly roomhandle_disable_remote_video: (a: number) => number;
   readonly roomhandle_enable_remote_audio: (a: number) => number;
   readonly roomhandle_enable_remote_video: (a: number) => number;
-  readonly __wbg_inputdeviceinfo_free: (a: number) => void;
-  readonly inputdeviceinfo_device_id: (a: number, b: number) => void;
-  readonly inputdeviceinfo_kind: (a: number) => number;
-  readonly inputdeviceinfo_label: (a: number, b: number) => void;
-  readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
-  readonly __wbg_mediatrack_free: (a: number) => void;
-  readonly mediatrack_get_track: (a: number) => number;
-  readonly mediatrack_enabled: (a: number) => number;
-  readonly mediatrack_on_enabled: (a: number, b: number) => void;
-  readonly mediatrack_on_disabled: (a: number, b: number) => void;
-  readonly mediatrack_kind: (a: number) => number;
-  readonly mediatrack_media_source_kind: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h843fc22b67860888: (a: number, b: number, c: number) => void;
-  readonly __wbindgen_exn_store: (a: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hc9c2774038e66145: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h63fe55e826c0e68b: (a: number, b: number, c: number, d: number) => void;
+  readonly __wbindgen_exn_store: (a: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h3c7893c93fba73a0: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**

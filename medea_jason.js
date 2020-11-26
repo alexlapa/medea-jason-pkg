@@ -22,7 +22,18 @@ function takeObject(idx) {
     return ret;
 }
 
-let WASM_VECTOR_LEN = 0;
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
+}
+
+let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
+
+cachedTextDecoder.decode();
 
 let cachegetUint8Memory0 = null;
 function getUint8Memory0() {
@@ -31,6 +42,12 @@ function getUint8Memory0() {
     }
     return cachegetUint8Memory0;
 }
+
+function getStringFromWasm0(ptr, len) {
+    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
+}
+
+let WASM_VECTOR_LEN = 0;
 
 let cachedTextEncoder = new TextEncoder('utf-8');
 
@@ -91,23 +108,6 @@ function getInt32Memory0() {
         cachegetInt32Memory0 = new Int32Array(wasm.memory.buffer);
     }
     return cachegetInt32Memory0;
-}
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
-}
-
-let cachedTextDecoder = new TextDecoder('utf-8', { ignoreBOM: true, fatal: true });
-
-cachedTextDecoder.decode();
-
-function getStringFromWasm0(ptr, len) {
-    return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
 
 function isLikeNone(x) {
@@ -204,27 +204,27 @@ function makeMutClosure(arg0, arg1, dtor, f) {
     return real;
 }
 function __wbg_adapter_30(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_33(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_36(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_39(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_42(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a857573d7753aea(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38(arg0, arg1, addHeapObject(arg2));
 }
 
 function __wbg_adapter_45(arg0, arg1, arg2) {
-    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h843fc22b67860888(arg0, arg1, addHeapObject(arg2));
+    wasm._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hc9c2774038e66145(arg0, arg1, addHeapObject(arg2));
 }
 
 function _assertClass(instance, klass) {
@@ -244,8 +244,8 @@ function handleError(f) {
         }
     };
 }
-function __wbg_adapter_270(arg0, arg1, arg2, arg3) {
-    wasm.wasm_bindgen__convert__closures__invoke2_mut__h63fe55e826c0e68b(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
+function __wbg_adapter_281(arg0, arg1, arg2, arg3) {
+    wasm.wasm_bindgen__convert__closures__invoke2_mut__h3c7893c93fba73a0(arg0, arg1, addHeapObject(arg2), addHeapObject(arg3));
 }
 
 /**
@@ -262,6 +262,18 @@ Audio:0,"0":"Audio",
 * Video track.
 */
 Video:1,"1":"Video", });
+/**
+* Media source type.
+*/
+export const MediaSourceKind = Object.freeze({
+/**
+* Media is sourced from some media device (webcam or microphone).
+*/
+Device:0,"0":"Device",
+/**
+* Media is obtained with screen-capture.
+*/
+Display:1,"1":"Display", });
 /**
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
@@ -285,18 +297,6 @@ Left:2,"2":"Left",
 * Facing to the right of the user.
 */
 Right:3,"3":"Right", });
-/**
-* Media source type.
-*/
-export const MediaSourceKind = Object.freeze({
-/**
-* Media is sourced from some media device (webcam or microphone).
-*/
-Device:0,"0":"Device",
-/**
-* Media is obtained with screen-capture.
-*/
-Display:1,"1":"Display", });
 /**
 * Constraints applicable to audio tracks.
 */
@@ -367,20 +367,20 @@ export class ConnectionHandle {
     */
     get_remote_member_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.connectionhandle_get_remote_member_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
     /**
-    * Sets callback, which will be invoked when new remote
-    * [`MediaStreamTrack`] will be added to this [`Connection`].
+    * Sets callback, which will be invoked when new [`remote::Track`] will be
+    * added to this [`Connection`].
     * @param {Function} f
     */
     on_remote_track_added(f) {
@@ -505,14 +505,14 @@ export class InputDeviceInfo {
     */
     device_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_device_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -536,14 +536,14 @@ export class InputDeviceInfo {
     */
     label() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_label(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -560,14 +560,14 @@ export class InputDeviceInfo {
     */
     group_id() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.inputdeviceinfo_group_id(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -601,7 +601,7 @@ export class Jason {
         return Jason.__wrap(ret);
     }
     /**
-    * Returns [`RoomHandle`] for [`Room`].
+    * Creates new [`Room`] and returns its [`RoomHandle`].
     * @returns {RoomHandle}
     */
     init_room() {
@@ -609,7 +609,7 @@ export class Jason {
         return RoomHandle.__wrap(ret);
     }
     /**
-    * Returns handle to [`MediaManager`].
+    * Returns [`MediaManagerHandle`].
     * @returns {MediaManagerHandle}
     */
     media_manager() {
@@ -617,7 +617,7 @@ export class Jason {
         return MediaManagerHandle.__wrap(ret);
     }
     /**
-    * Closes the provided [`Room`].
+    * Closes the provided [`RoomHandle`].
     * @param {RoomHandle} room_to_delete
     */
     close_room(room_to_delete) {
@@ -663,14 +663,14 @@ export class JasonError {
     */
     name() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_name(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -680,14 +680,14 @@ export class JasonError {
     */
     message() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_message(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -697,14 +697,14 @@ export class JasonError {
     */
     trace() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.jasonerror_trace(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -718,15 +718,63 @@ export class JasonError {
     }
 }
 /**
+* Wrapper around strongly referenced [`Track`] for JS side.
+*/
+export class LocalMediaTrack {
+
+    static __wrap(ptr) {
+        const obj = Object.create(LocalMediaTrack.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    free() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        wasm.__wbg_localmediatrack_free(ptr);
+    }
+    /**
+    * Returns the underlying [`sys::MediaStreamTrack`] of this [`JsTrack`].
+    * @returns {MediaStreamTrack}
+    */
+    get_track() {
+        var ret = wasm.localmediatrack_get_track(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Returns [`MediaKind::Audio`] if this [`JsTrack`] represents an audio
+    * track, or [`MediaKind::Video`] if it represents a video track.
+    * @returns {number}
+    */
+    kind() {
+        var ret = wasm.localmediatrack_kind(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * Returns [`JsMediaSourceKind::Device`] if this [`JsTrack`] is sourced
+    * from some device (webcam/microphone), or [`JsMediaSourceKind::Display`]
+    * if ot is captured via [MediaDevices.getDisplayMedia()][1].
+    *
+    * [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
+    * @returns {number}
+    */
+    media_source_kind() {
+        var ret = wasm.localmediatrack_media_source_kind(this.ptr);
+        return ret >>> 0;
+    }
+}
+/**
 * JS side handle to [`MediaManager`].
 *
 * [`MediaManager`] performs all media acquisition requests
 * ([getUserMedia()][1]/[getDisplayMedia()][2]) and stores all received tracks
 * for further reusage.
 *
-* [`MediaManager`] stores weak references to [`MediaStreamTrack`]s, so if
-* there are no strong references to some track, then this track is stopped
-* and deleted from [`MediaManager`].
+* [`MediaManager`] stores weak references to [`local::Track`]s, so if there
+* are no strong references to some track, then this track is stopped and
+* deleted from [`MediaManager`].
 *
 * [1]: https://w3.org/TR/mediacapture-streams/#dom-mediadevices-getusermedia
 * [2]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
@@ -757,7 +805,7 @@ export class MediaManagerHandle {
         return takeObject(ret);
     }
     /**
-    * Returns [`MediaStreamTrack`]s objects, built from provided
+    * Returns [`local::JsTrack`]s objects, built from provided
     * [`MediaStreamSettings`].
     * @param {MediaStreamSettings} caps
     * @returns {Promise<any>}
@@ -789,7 +837,7 @@ export class MediaStreamSettings {
         wasm.__wbg_mediastreamsettings_free(ptr);
     }
     /**
-    * Creates new [`MediaStreamConstraints`] with none constraints configured.
+    * Creates new [`MediaStreamSettings`] with none constraints configured.
     */
     constructor() {
         var ret = wasm.mediastreamsettings_new();
@@ -828,84 +876,6 @@ export class MediaStreamSettings {
         var ptr0 = constraints.ptr;
         constraints.ptr = 0;
         wasm.mediastreamsettings_display_video(this.ptr, ptr0);
-    }
-}
-/**
-* Strong reference to [MediaStreamTrack][1].
-*
-* Track will be automatically stopped when there are no strong references
-* left.
-*
-* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack
-*/
-export class MediaTrack {
-
-    static __wrap(ptr) {
-        const obj = Object.create(MediaTrack.prototype);
-        obj.ptr = ptr;
-
-        return obj;
-    }
-
-    free() {
-        const ptr = this.ptr;
-        this.ptr = 0;
-
-        wasm.__wbg_mediatrack_free(ptr);
-    }
-    /**
-    * Returns underlying [`SysMediaStreamTrack`] from this
-    * [`MediaStreamTrack`].
-    * @returns {MediaStreamTrack}
-    */
-    get_track() {
-        var ret = wasm.mediatrack_get_track(this.ptr);
-        return takeObject(ret);
-    }
-    /**
-    * Returns is this [`MediaStreamTrack`] enabled.
-    * @returns {boolean}
-    */
-    enabled() {
-        var ret = wasm.mediatrack_enabled(this.ptr);
-        return ret !== 0;
-    }
-    /**
-    * Sets callback, which will be invoked when this [`MediaStreamTrack`] is
-    * enabled.
-    * @param {Function} callback
-    */
-    on_enabled(callback) {
-        wasm.mediatrack_on_enabled(this.ptr, addHeapObject(callback));
-    }
-    /**
-    * Sets callback, which will be invoked when this [`MediaStreamTrack`] is
-    * enabled.
-    * @param {Function} callback
-    */
-    on_disabled(callback) {
-        wasm.mediatrack_on_disabled(this.ptr, addHeapObject(callback));
-    }
-    /**
-    * Returns a [`String`] set to `audio` if the track is an audio track and
-    * to `video`, if it is a video track.
-    * @returns {number}
-    */
-    kind() {
-        var ret = wasm.mediatrack_kind(this.ptr);
-        return ret >>> 0;
-    }
-    /**
-    * Returns a [`String`] set to `device` if track is sourced from some
-    * device (webcam/microphone) and to `display`, if track is captured via
-    * [MediaDevices.getDisplayMedia()][1].
-    *
-    * [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
-    * @returns {number}
-    */
-    media_source_kind() {
-        var ret = wasm.mediatrack_media_source_kind(this.ptr);
-        return ret >>> 0;
     }
 }
 /**
@@ -972,6 +942,78 @@ export class ReconnectHandle {
     }
 }
 /**
+* Wrapper around [MediaStreamTrack][1] received from the remote.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack
+*/
+export class RemoteMediaTrack {
+
+    static __wrap(ptr) {
+        const obj = Object.create(RemoteMediaTrack.prototype);
+        obj.ptr = ptr;
+
+        return obj;
+    }
+
+    free() {
+        const ptr = this.ptr;
+        this.ptr = 0;
+
+        wasm.__wbg_remotemediatrack_free(ptr);
+    }
+    /**
+    * Returns the underlying [`sys::MediaStreamTrack`] of this [`Track`].
+    * @returns {MediaStreamTrack}
+    */
+    get_track() {
+        var ret = wasm.localmediatrack_get_track(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Indicate whether this [`Track`] is enabled.
+    * @returns {boolean}
+    */
+    enabled() {
+        var ret = wasm.remotemediatrack_enabled(this.ptr);
+        return ret !== 0;
+    }
+    /**
+    * Sets callback to invoke when this [`Track`] is enabled.
+    * @param {Function} callback
+    */
+    on_enabled(callback) {
+        wasm.remotemediatrack_on_enabled(this.ptr, addHeapObject(callback));
+    }
+    /**
+    * Sets callback to invoke when this [`Track`] is disabled.
+    * @param {Function} callback
+    */
+    on_disabled(callback) {
+        wasm.remotemediatrack_on_disabled(this.ptr, addHeapObject(callback));
+    }
+    /**
+    * Returns [`MediaKind::Audio`] if this [`Track`] represents an audio
+    * track, or [`MediaKind::Video`] if it represents a video track.
+    * @returns {number}
+    */
+    kind() {
+        var ret = wasm.remotemediatrack_kind(this.ptr);
+        return ret >>> 0;
+    }
+    /**
+    * Returns [`JsMediaSourceKind::Device`] if this [`Track`] is sourced from
+    * some device (webcam/microphone), or [`JsMediaSourceKind::Display`] if
+    * it's captured via [MediaDevices.getDisplayMedia()][1].
+    *
+    * [1]: https://w3.org/TR/screen-capture/#dom-mediadevices-getdisplaymedia
+    * @returns {number}
+    */
+    media_source_kind() {
+        var ret = wasm.remotemediatrack_media_source_kind(this.ptr);
+        return ret >>> 0;
+    }
+}
+/**
 * Reason of why [`Room`] has been closed.
 *
 * This struct is passed into `on_close_by_server` JS side callback.
@@ -997,14 +1039,14 @@ export class RoomCloseReason {
     */
     reason() {
         try {
-            const retptr = wasm.__wbindgen_export_6.value - 16;
-            wasm.__wbindgen_export_6.value = retptr;
+            const retptr = wasm.__wbindgen_export_5.value - 16;
+            wasm.__wbindgen_export_5.value = retptr;
             wasm.roomclosereason_reason(retptr, this.ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             return getStringFromWasm0(r0, r1);
         } finally {
-            wasm.__wbindgen_export_6.value += 16;
+            wasm.__wbindgen_export_5.value += 16;
             wasm.__wbindgen_free(r0, r1);
         }
     }
@@ -1051,6 +1093,8 @@ export class RoomHandle {
     /**
     * Sets callback, which will be invoked when new [`Connection`] with some
     * remote `Peer` is established.
+    *
+    * [`Connection`]: crate::api::Connection
     * @param {Function} f
     */
     on_new_connection(f) {
@@ -1065,8 +1109,8 @@ export class RoomHandle {
         wasm.roomhandle_on_close(this.ptr, addHeapObject(f));
     }
     /**
-    * Sets callback, which will be invoked when new local [`MediaStreamTrack`]
-    * will be added to this [`Room`].
+    * Sets callback, which will be invoked when new [`local::Track`] will be
+    * added to this [`Room`].
     * This might happen in such cases:
     * 1. Media server initiates media request.
     * 2. `disable_audio`/`enable_video` is called.
@@ -1085,8 +1129,8 @@ export class RoomHandle {
         wasm.roomhandle_on_failed_local_media(this.ptr, addHeapObject(f));
     }
     /**
-    * Sets `on_connection_loss` callback, which will be invoked on
-    * [`WebSocketRpcClient`] connection loss.
+    * Sets `on_connection_loss` callback, which will be invoked on connection
+    * with server loss.
     * @param {Function} f
     */
     on_connection_loss(f) {
@@ -1115,22 +1159,56 @@ export class RoomHandle {
     /**
     * Updates this [`Room`]s [`MediaStreamSettings`]. This affects all
     * [`PeerConnection`]s in this [`Room`]. If [`MediaStreamSettings`] is
-    * configured for some [`Room`], then this [`Room`] can only send
-    * [`MediaStream`] that corresponds to this settings.
-    * [`MediaStreamSettings`] update will change [`MediaStream`] in all
-    * sending peers, so that might cause new [getUserMedia()][1] request.
+    * configured for some [`Room`], then this [`Room`] can only send media
+    * tracks that correspond to this settings. [`MediaStreamSettings`]
+    * update will change media tracks in all sending peers, so that might
+    * cause new [getUserMedia()][1] request.
     *
     * Media obtaining/injection errors are fired to `on_failed_local_media`
     * callback.
     *
     * [`PeerConnection`]: crate::peer::PeerConnection
-    * [1]: https://tinyurl.com/rnxcavf
+    * [1]: https://tinyurl.com/w3-streams#dom-mediadevices-getusermedia
     * @param {MediaStreamSettings} settings
     * @returns {Promise<any>}
     */
     set_local_media_settings(settings) {
         _assertClass(settings, MediaStreamSettings);
         var ret = wasm.roomhandle_set_local_media_settings(this.ptr, settings.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Mutes outbound audio in this [`Room`].
+    * @returns {Promise<any>}
+    */
+    mute_audio() {
+        var ret = wasm.roomhandle_mute_audio(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Unmutes outbound audio in this [`Room`].
+    * @returns {Promise<any>}
+    */
+    unmute_audio() {
+        var ret = wasm.roomhandle_unmute_audio(this.ptr);
+        return takeObject(ret);
+    }
+    /**
+    * Mutes outbound video in this [`Room`].
+    * @param {number | undefined} source_kind
+    * @returns {Promise<any>}
+    */
+    mute_video(source_kind) {
+        var ret = wasm.roomhandle_mute_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
+        return takeObject(ret);
+    }
+    /**
+    * Unmutes outbound video in this [`Room`].
+    * @param {number | undefined} source_kind
+    * @returns {Promise<any>}
+    */
+    unmute_video(source_kind) {
+        var ret = wasm.roomhandle_unmute_video(this.ptr, isLikeNone(source_kind) ? 2 : source_kind);
         return takeObject(ret);
     }
     /**
@@ -1244,8 +1322,48 @@ async function init(input) {
     }
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_jasonerror_new = function(arg0) {
+        var ret = JasonError.__wrap(arg0);
+        return addHeapObject(ret);
+    };
     imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
         takeObject(arg0);
+    };
+    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
+        var ret = ReconnectHandle.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_localmediatrack_new = function(arg0) {
+        var ret = LocalMediaTrack.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_roomclosereason_new = function(arg0) {
+        var ret = RoomCloseReason.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_connectionhandle_new = function(arg0) {
+        var ret = ConnectionHandle.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_remotemediatrack_new = function(arg0) {
+        var ret = RemoteMediaTrack.__wrap(arg0);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_number_new = function(arg0) {
+        var ret = arg0;
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_is_undefined = function(arg0) {
+        var ret = getObject(arg0) === undefined;
+        return ret;
+    };
+    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+        var ret = getStringFromWasm0(arg0, arg1);
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
+        var ret = getObject(arg0);
+        return addHeapObject(ret);
     };
     imports.wbg.__wbindgen_json_serialize = function(arg0, arg1) {
         const obj = getObject(arg1);
@@ -1264,50 +1382,14 @@ async function init(input) {
         var ret = false;
         return ret;
     };
-    imports.wbg.__wbg_reconnecthandle_new = function(arg0) {
-        var ret = ReconnectHandle.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_jasonerror_new = function(arg0) {
-        var ret = JasonError.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_connectionhandle_new = function(arg0) {
-        var ret = ConnectionHandle.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_roomclosereason_new = function(arg0) {
-        var ret = RoomCloseReason.__wrap(arg0);
-        return addHeapObject(ret);
-    };
     imports.wbg.__wbg_inputdeviceinfo_new = function(arg0) {
         var ret = InputDeviceInfo.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbg_mediatrack_new = function(arg0) {
-        var ret = MediaTrack.__wrap(arg0);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbindgen_number_new = function(arg0) {
-        var ret = arg0;
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
-        var ret = getStringFromWasm0(arg0, arg1);
-        return addHeapObject(ret);
-    };
-    imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
-        var ret = getObject(arg0);
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_getdisplaymedia_da88b7d1f14357f5 = handleError(function(arg0, arg1) {
         var ret = get_display_media(getObject(arg0), getObject(arg1));
         return addHeapObject(ret);
     });
-    imports.wbg.__wbindgen_is_undefined = function(arg0) {
-        var ret = getObject(arg0) === undefined;
-        return ret;
-    };
     imports.wbg.__wbg_new_59cb74e423758ede = function() {
         var ret = new Error();
         return addHeapObject(ret);
@@ -1446,6 +1528,10 @@ async function init(input) {
     };
     imports.wbg.__wbg_readyState_2dab8ba324864c07 = function(arg0) {
         var ret = getObject(arg0).readyState;
+        return addHeapObject(ret);
+    };
+    imports.wbg.__wbg_clone_bcd40500b2bfd18b = function(arg0) {
+        var ret = getObject(arg0).clone();
         return addHeapObject(ret);
     };
     imports.wbg.__wbg_getSettings_a971a5676878f1bf = function(arg0) {
@@ -1657,7 +1743,7 @@ async function init(input) {
                 const a = state0.a;
                 state0.a = 0;
                 try {
-                    return __wbg_adapter_270(a, state0.b, arg0, arg1);
+                    return __wbg_adapter_281(a, state0.b, arg0, arg1);
                 } finally {
                     state0.a = a;
                 }
@@ -1725,28 +1811,28 @@ async function init(input) {
     imports.wbg.__wbindgen_rethrow = function(arg0) {
         throw takeObject(arg0);
     };
-    imports.wbg.__wbindgen_closure_wrapper1219 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_30);
+    imports.wbg.__wbindgen_closure_wrapper1583 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 448, __wbg_adapter_30);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1220 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_33);
+    imports.wbg.__wbindgen_closure_wrapper1584 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 448, __wbg_adapter_33);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1221 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_36);
+    imports.wbg.__wbindgen_closure_wrapper1585 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 448, __wbg_adapter_36);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1223 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_39);
+    imports.wbg.__wbindgen_closure_wrapper1588 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 448, __wbg_adapter_39);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1227 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 331, __wbg_adapter_42);
+    imports.wbg.__wbindgen_closure_wrapper1591 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 448, __wbg_adapter_42);
         return addHeapObject(ret);
     };
-    imports.wbg.__wbindgen_closure_wrapper1886 = function(arg0, arg1, arg2) {
-        var ret = makeMutClosure(arg0, arg1, 545, __wbg_adapter_45);
+    imports.wbg.__wbindgen_closure_wrapper1894 = function(arg0, arg1, arg2) {
+        var ret = makeMutClosure(arg0, arg1, 540, __wbg_adapter_45);
         return addHeapObject(ret);
     };
 
