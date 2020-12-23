@@ -1,34 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
-* [MediaStreamTrack.kind][1] representation.
-*
-* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack-kind
-*/
-export enum MediaKind {
-/**
-* Audio track.
-*/
-  Audio,
-/**
-* Video track.
-*/
-  Video,
-}
-/**
-* Media source type.
-*/
-export enum MediaSourceKind {
-/**
-* Media is sourced from some media device (webcam or microphone).
-*/
-  Device,
-/**
-* Media is obtained with screen-capture.
-*/
-  Display,
-}
-/**
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
@@ -51,6 +23,34 @@ export enum FacingMode {
 * Facing to the right of the user.
 */
   Right,
+}
+/**
+* Media source type.
+*/
+export enum MediaSourceKind {
+/**
+* Media is sourced from some media device (webcam or microphone).
+*/
+  Device,
+/**
+* Media is obtained with screen-capture.
+*/
+  Display,
+}
+/**
+* [MediaStreamTrack.kind][1] representation.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack-kind
+*/
+export enum MediaKind {
+/**
+* Audio track.
+*/
+  Audio,
+/**
+* Video track.
+*/
+  Video,
 }
 /**
 * Constraints applicable to audio tracks.
@@ -100,6 +100,41 @@ export class ConnectionHandle {
   on_quality_score_update(f: Function): void;
 }
 /**
+* JS exception for the [`RoomHandle::set_local_media_settings`].
+*/
+export class ConstraintsUpdateException {
+  free(): void;
+/**
+* Returns name of this [`ConstraintsUpdateException`].
+* @returns {string}
+*/
+  name(): string;
+/**
+* Returns [`JasonError`] if this [`ConstraintsUpdateException`] represents
+* `RecoveredException` or `RecoverFailedException`.
+*
+* Returns `undefined` otherwise.
+* @returns {any}
+*/
+  recover_reason(): any;
+/**
+* Returns [`js_sys::Array`] with the [`JasonError`]s if this
+* [`ConstraintsUpdateException`] represents `RecoverFailedException`.
+*
+* Returns `undefined` otherwise.
+* @returns {any}
+*/
+  recover_fail_reasons(): any;
+/**
+* Returns [`JasonError`] if this [`ConstraintsUpdateException`] represents
+* `ErroredException`.
+*
+* Returns `undefined` otherwise.
+* @returns {any}
+*/
+  error(): any;
+}
+/**
 * Constraints applicable to video tracks that are sourced from some media
 * device.
 */
@@ -131,6 +166,50 @@ export class DeviceVideoTrackConstraints {
 * @param {number} facing_mode
 */
   ideal_facing_mode(facing_mode: number): void;
+/**
+* Sets exact [`height`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-height
+* @param {number} height
+*/
+  exact_height(height: number): void;
+/**
+* Sets ideal [`height`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-height
+* @param {number} height
+*/
+  ideal_height(height: number): void;
+/**
+* Sets range of [`height`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-height
+* @param {number} min
+* @param {number} max
+*/
+  height_in_range(min: number, max: number): void;
+/**
+* Sets exact [`width`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-width
+* @param {number} width
+*/
+  exact_width(width: number): void;
+/**
+* Sets ideal [`width`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-width
+* @param {number} width
+*/
+  ideal_width(width: number): void;
+/**
+* Sets range of [`width`][1] constraint.
+*
+* [1]: https://tinyurl.com/w3-streams#def-constraint-width
+* @param {number} min
+* @param {number} max
+*/
+  width_in_range(min: number, max: number): void;
 }
 /**
 * Constraints applicable to video tracks sourced from screen capture.
@@ -513,15 +592,30 @@ export class RoomHandle {
 * update will change media tracks in all sending peers, so that might
 * cause new [getUserMedia()][1] request.
 *
-* Media obtaining/injection errors are fired to `on_failed_local_media`
-* callback.
+* Media obtaining/injection errors are additionally fired to
+* `on_failed_local_media` callback.
+*
+* If `stop_first` set to `true` then affected [`local::Track`]s will be
+* dropped before new [`MediaStreamSettings`] is applied. This is usually
+* required when changing video source device due to hardware limitations,
+* e.g. having an active track sourced from device `A` may hinder
+* [getUserMedia()][1] requests to device `B`.
+*
+* `rollback_on_fail` option configures [`MediaStreamSettings`] update
+* request to automatically rollback to previous settings if new settings
+* cannot be applied.
+*
+* If recovering from fail state isn't possible then affected media types
+* will be disabled.
 *
 * [`PeerConnection`]: crate::peer::PeerConnection
 * [1]: https://tinyurl.com/w3-streams#dom-mediadevices-getusermedia
 * @param {MediaStreamSettings} settings
+* @param {boolean} stop_first
+* @param {boolean} rollback_on_fail
 * @returns {Promise<any>}
 */
-  set_local_media_settings(settings: MediaStreamSettings): Promise<any>;
+  set_local_media_settings(settings: MediaStreamSettings, stop_first: boolean, rollback_on_fail: boolean): Promise<any>;
 /**
 * Mutes outbound audio in this [`Room`].
 * @returns {Promise<any>}
@@ -611,6 +705,9 @@ export interface InitOutput {
   readonly inputdeviceinfo_kind: (a: number) => number;
   readonly inputdeviceinfo_label: (a: number, b: number) => void;
   readonly inputdeviceinfo_group_id: (a: number, b: number) => void;
+  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
+  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
+  readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
   readonly __wbg_reconnecthandle_free: (a: number) => void;
   readonly reconnecthandle_reconnect_with_delay: (a: number, b: number) => number;
   readonly reconnecthandle_reconnect_with_backoff: (a: number, b: number, c: number, d: number) => number;
@@ -620,20 +717,6 @@ export interface InitOutput {
   readonly jason_media_manager: (a: number) => number;
   readonly jason_close_room: (a: number, b: number) => void;
   readonly jason_dispose: (a: number) => void;
-  readonly __wbg_localmediatrack_free: (a: number) => void;
-  readonly localmediatrack_get_track: (a: number) => number;
-  readonly localmediatrack_kind: (a: number) => number;
-  readonly localmediatrack_media_source_kind: (a: number) => number;
-  readonly __wbg_remotemediatrack_free: (a: number) => void;
-  readonly remotemediatrack_enabled: (a: number) => number;
-  readonly remotemediatrack_on_enabled: (a: number, b: number) => void;
-  readonly remotemediatrack_on_disabled: (a: number, b: number) => void;
-  readonly remotemediatrack_kind: (a: number) => number;
-  readonly remotemediatrack_media_source_kind: (a: number) => number;
-  readonly remotemediatrack_get_track: (a: number) => number;
-  readonly __wbg_mediamanagerhandle_free: (a: number) => void;
-  readonly mediamanagerhandle_enumerate_devices: (a: number) => number;
-  readonly mediamanagerhandle_init_local_tracks: (a: number, b: number) => number;
   readonly __wbg_mediastreamsettings_free: (a: number) => void;
   readonly mediastreamsettings_new: () => number;
   readonly mediastreamsettings_audio: (a: number, b: number) => void;
@@ -642,12 +725,18 @@ export interface InitOutput {
   readonly __wbg_audiotrackconstraints_free: (a: number) => void;
   readonly audiotrackconstraints_new: () => number;
   readonly audiotrackconstraints_device_id: (a: number, b: number, c: number) => void;
+  readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
   readonly devicevideotrackconstraints_new: () => number;
   readonly devicevideotrackconstraints_exact_facing_mode: (a: number, b: number) => void;
   readonly devicevideotrackconstraints_ideal_facing_mode: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_exact_height: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_ideal_height: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_height_in_range: (a: number, b: number, c: number) => void;
+  readonly devicevideotrackconstraints_exact_width: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_ideal_width: (a: number, b: number) => void;
+  readonly devicevideotrackconstraints_width_in_range: (a: number, b: number, c: number) => void;
   readonly __wbg_displayvideotrackconstraints_free: (a: number) => void;
   readonly displayvideotrackconstraints_new: () => number;
-  readonly __wbg_devicevideotrackconstraints_free: (a: number) => void;
   readonly devicevideotrackconstraints_device_id: (a: number, b: number, c: number) => void;
   readonly __wbg_roomclosereason_free: (a: number) => void;
   readonly roomclosereason_reason: (a: number, b: number) => void;
@@ -660,7 +749,7 @@ export interface InitOutput {
   readonly roomhandle_on_failed_local_media: (a: number, b: number) => void;
   readonly roomhandle_on_connection_loss: (a: number, b: number) => void;
   readonly roomhandle_join: (a: number, b: number, c: number) => number;
-  readonly roomhandle_set_local_media_settings: (a: number, b: number) => number;
+  readonly roomhandle_set_local_media_settings: (a: number, b: number, c: number, d: number) => number;
   readonly roomhandle_mute_audio: (a: number) => number;
   readonly roomhandle_unmute_audio: (a: number) => number;
   readonly roomhandle_mute_video: (a: number, b: number) => number;
@@ -673,14 +762,30 @@ export interface InitOutput {
   readonly roomhandle_disable_remote_video: (a: number) => number;
   readonly roomhandle_enable_remote_audio: (a: number) => number;
   readonly roomhandle_enable_remote_video: (a: number) => number;
+  readonly __wbg_constraintsupdateexception_free: (a: number) => void;
+  readonly constraintsupdateexception_name: (a: number, b: number) => void;
+  readonly constraintsupdateexception_recover_reason: (a: number) => number;
+  readonly constraintsupdateexception_recover_fail_reasons: (a: number) => number;
+  readonly constraintsupdateexception_error: (a: number) => number;
+  readonly __wbg_localmediatrack_free: (a: number) => void;
+  readonly localmediatrack_get_track: (a: number) => number;
+  readonly localmediatrack_kind: (a: number) => number;
+  readonly localmediatrack_media_source_kind: (a: number) => number;
+  readonly __wbg_remotemediatrack_free: (a: number) => void;
+  readonly remotemediatrack_enabled: (a: number) => number;
+  readonly remotemediatrack_on_enabled: (a: number, b: number) => void;
+  readonly remotemediatrack_on_disabled: (a: number, b: number) => void;
+  readonly remotemediatrack_kind: (a: number) => number;
+  readonly remotemediatrack_media_source_kind: (a: number) => number;
+  readonly remotemediatrack_get_track: (a: number) => number;
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h00ce6b9bd0dc4b38: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hc9c2774038e66145: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h40d89ff2484e7df4: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h5f8843b5138a8b4d: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h3c7893c93fba73a0: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h35e61dbd89ae90f6: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
