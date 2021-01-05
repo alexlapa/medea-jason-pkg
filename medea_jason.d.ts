@@ -1,6 +1,21 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+* [MediaStreamTrack.kind][1] representation.
+*
+* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack-kind
+*/
+export enum MediaKind {
+/**
+* Audio track.
+*/
+  Audio,
+/**
+* Video track.
+*/
+  Video,
+}
+/**
 * Describes the directions that the camera can face, as seen from the user's
 * perspective. Representation of [VideoFacingModeEnum][1].
 *
@@ -36,21 +51,6 @@ export enum MediaSourceKind {
 * Media is obtained with screen-capture.
 */
   Display,
-}
-/**
-* [MediaStreamTrack.kind][1] representation.
-*
-* [1]: https://w3.org/TR/mediacapture-streams/#dom-mediastreamtrack-kind
-*/
-export enum MediaKind {
-/**
-* Audio track.
-*/
-  Audio,
-/**
-* Video track.
-*/
-  Video,
 }
 /**
 * Constraints applicable to audio tracks.
@@ -570,8 +570,12 @@ export class RoomHandle {
 */
   on_connection_loss(f: Function): void;
 /**
-* Performs entering to a [`Room`] with the preconfigured authorization
-* `token` for connection with media server.
+* Connects media server and enters [`Room`] with provided authorization
+* `token`.
+*
+* Authorization token has fixed format:
+* `{{ Host URL }}/{{ Room ID }}/{{ Member ID }}?token={{ Auth Token }}`
+* (e.g. `wss://medea.com/MyConf1/Alice?token=777`).
 *
 * Establishes connection with media server (if it doesn't already exist).
 * Fails if:
@@ -781,11 +785,11 @@ export interface InitOutput {
   readonly __wbindgen_malloc: (a: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h40d89ff2484e7df4: (a: number, b: number, c: number) => void;
-  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h5f8843b5138a8b4d: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0f1aa09cfbdcce07: (a: number, b: number, c: number) => void;
+  readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hbc54fef469893039: (a: number, b: number, c: number) => void;
   readonly __wbindgen_free: (a: number, b: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
-  readonly wasm_bindgen__convert__closures__invoke2_mut__h35e61dbd89ae90f6: (a: number, b: number, c: number, d: number) => void;
+  readonly wasm_bindgen__convert__closures__invoke2_mut__h6963e6224502a33e: (a: number, b: number, c: number, d: number) => void;
 }
 
 /**
